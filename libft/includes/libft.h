@@ -17,7 +17,7 @@
 ** for get_next_line
 */
 
-# define BUFF_SIZE	4096
+# define BUFF_SIZE	8
 # define MAX_FDS	1024
 
 /*

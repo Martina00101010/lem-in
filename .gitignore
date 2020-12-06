@@ -40,6 +40,7 @@ objs/
 *.x86_64
 *.hex
 lem-in
+lemin_unit_tests
 
 # Debug files
 *.dSYM/

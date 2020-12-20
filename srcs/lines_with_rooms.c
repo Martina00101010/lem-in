@@ -30,32 +30,72 @@ int		ft_issymbol(char c)
 ** даже нули не использует, поэтому неположительные числа считаем невалидными
 */
 
-char	*get_room_coordinate(int *coord, char *line)
+int		get_room_coordinate(char **line)
 {
-	while (ft_isdigit(*line) && *coord >= 0)
-		*coord = *coord * 10 + *(line++) - '0';
-	return (line);
+	int	coord;
+
+	coord = 0;
+	while (ft_isdigit(**line) && coord >= 0)
+	{
+		coord = coord * 10 + **line - '0';
+		(*line)++;
+	}
+	return (coord);
 }
 
 /*
 ** записываем название комнаты.
 ** название может состоять из букв, цифр и нижнего подчеркивания.
-** лайфхак: генератор создаёт названия до 4 символов,
-** поэтому храним названия в массиве на 4 символа и конец строки
+** название комнаты не может начинаться на 'L'
 */
 
-char	*get_room_name(char *name, char *line)
+char	*get_room_name(char **line, short len)
 {
-	int		i;
+	short	i;
+	char	*name;
 
-	i = 0;
-	while (ft_issymbol(line[i]))
+	i = -1;
+	if (len <= 0 || **line == 'L')
+		return (NULL);
+	name = ft_strnew(len);
+	if (name == NULL)
+		return (NULL);
+	while (++i < len)
 	{
-		name[i] = line[i];
-		i++;
+		if (!ft_issymbol(**line))
+		{
+			free(name);
+			return (NULL);
+		}
+		name[i] = **line;
+		(*line)++;
 	}
 	name[i] = '\0';
-	return (line + i);
+	return (name);
+}
+
+void	get_room(char **line, t_room *room)
+{
+	char	*stop;
+	short	len;
+
+	stop = ft_strchr(*line, ' ');
+	if (stop == NULL)
+	{
+		*line = ft_strchr(*line, '-');
+		return ;
+	}
+	room->name = get_room_name(line, stop - *line);
+	if (room->name == NULL || **line != ' ')
+		return ;
+	(*line)++;
+	room->x = get_room_coordinate(line);
+	if (**line != ' ' || room->x <= 0)
+		ft_strdel(&room->name);
+	(*line)++;
+	room->y = get_room_coordinate(line);
+	if (**line != '\0' || room->y <= 0)
+		ft_strdel(&room->name);
 }
 
 /*
@@ -67,35 +107,33 @@ char	*get_room_name(char *name, char *line)
 ** всё строго разделено одним пробелом, а в конце идёт перенос строки
 */
 
-char	*lines_with_rooms(
-	t_room *room,
-	size_t *number_of_rooms,
-	size_t *start,
-	size_t *end
-)
+void	lines_with_rooms(t_lem_in *lemin, char **line)
 {
-	char	*line;
+	t_room	*room;
 	char	*to_free;
 
-	while (get_next_line_2_0(&line))
+	*line = NULL;
+	lemin->rooms = (t_room *)malloc(sizeof(t_room) * MAX_ROOMS_NUM);
+	ft_bzero(lemin->rooms, sizeof(t_room) * MAX_ROOMS_NUM);
+	room = lemin->rooms;
+	while (get_next_line_2_0(line, lemin) > 0)
 	{
-		line = skip_comments(line);
-		line = execute_command(line, start, end, *number_of_rooms);
-		to_free = line;
-		line = get_room_name(room->name, line);
-		if (*line == '-')
-			return (to_free);
-		if (*line != ' ')
-			end_parser(to_free);
-		line = get_room_coordinate(&room->x, ++line);
-		if (*line != ' ' || room->x <= 0)
-			end_parser(to_free);
-		line = get_room_coordinate(&room->y, ++line);
-		if (*line != '\0' || room->y <= 0)
-			end_parser(line);
-		(*number_of_rooms)++;
+		skip_comments(line, lemin);
+		if (*line == NULL)
+			end_parser(NULL, lemin, NULL);
+		execute_command(line, lemin, lemin->rooms + lemin->number_of_rooms);
+		to_free = *line;
+		get_room(line, room);
+		if (room->name == NULL && (*line == NULL || **line != '-'))
+			end_parser(to_free, lemin, NULL);
+		if (**line == '-')
+		{
+			*line = to_free;
+			return ;
+		}
+		lemin->number_of_rooms++;
 		room += 1;
 		free(to_free);
 	}
-	return (NULL);
+	*line = NULL;
 }

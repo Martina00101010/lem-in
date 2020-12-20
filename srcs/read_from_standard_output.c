@@ -19,13 +19,13 @@
 ** поэтому вынесу его сюда вместе с проверкой
 */
 
-int		get_next_line_2_0(char **line)
+int		get_next_line_2_0(char **line, t_lem_in *lemin)
 {
     int		num_bytes;
 
 	num_bytes = get_next_line(0, line);
-	if (num_bytes < 1)
-		end_parser(*line);
+	if (num_bytes == -1)
+		end_parser(NULL, lemin, NULL);
 	return (num_bytes);
 }
 
@@ -39,109 +39,92 @@ int		get_next_line_2_0(char **line)
 ** однако какие это команды не указано в задании
 */
 
-char	*execute_command(
-	char *line,
-	size_t *start_room,
-	size_t *end_room,
-	size_t index)
+void	execute_command(char **line, t_lem_in *lemin, t_room *room)
 {
-	while (line[0] == '#' && line[1] == '#')
+	char	*command;
+
+	command = *line;
+	while (command[0] == '#' && command[1] == '#')
 	{
-		if (ft_strcmp(line, "##start") == 0)
+		if (ft_strcmp(command, "##start") == 0)
 		{
-			if (*start_room != 0)
-				end_parser(line);
-			*start_room = index;
+			if (lemin->start_room != NULL)
+				end_parser(command, lemin, NULL);
+			lemin->start_room = room;
 		}
-		if (ft_strcmp(line, "##end") == 0)
+		if (ft_strcmp(command, "##end") == 0)
 		{
-			if (*end_room != 0)
-				end_parser(line);
-			*end_room = index;
+			if (lemin->end_room != NULL)
+				end_parser(command, lemin, NULL);
+			lemin->end_room = room;
 		}
-		free(line);
-		get_next_line_2_0(&line);
+		free(command);
+		get_next_line_2_0(line, lemin);
+		command = *line;
 	}
-	return (line);
 }
 
 /*
 ** пропускаем строки-комментарии (начинаются с '#'и следующий символ не '#')
 */
 
-char	*skip_comments(char *line/*, t_buffer *buffer*/)
+short	skip_comments(char **line, t_lem_in *lemin)
 {
-	while (line[0] && line[0] == '#' && line[1] != '#')
+	while ((*line)[0] && (*line)[0] == '#' && (*line)[1] != '#')
 	{
-		// save_line(line, buffer);
-		// ft_bzero(line, ft_strlen(line));
-		free(line);
-		get_next_line_2_0(&line);
+		free(*line);
+		if (get_next_line_2_0(line, lemin) == 0)
+			return (0);
 	}
-    return (line);
+    return (1);
 }
 
 /*
 ** проверяем, что первой строкой идёт количество муравьёв на старте
 */
 
-void	first_line_is_int(char *line, int *number_of_ants/*, t_buffer *buffer*/)
+void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 {
 	int		i;
 
 	i = -1;
-	line = skip_comments(line/*, buffer*/);
-	while (line[0] && ft_isdigit(line[++i]))
+	skip_comments(line, lemin);
+	while ((*line)[0] && ft_isdigit((*line)[++i]))
 	{
-		*number_of_ants = *number_of_ants * 10 + line[i] - '0';
+		*number_of_ants = *number_of_ants * 10 + (*line)[i] - '0';
 	}
-	if (*number_of_ants == 0 || line[i] != '\0')
-		end_with_error();
+
+	if (*number_of_ants == 0 || (*line)[i] != '\0')
+		end_parser(*line, lemin, NULL);
+	free(*line);
 }
 
 /*
 ** читаем карту.
 ** сначала могут идти комментарии,
-** потом ожидается первая строка с количеством муравьёв,
-** следом идут комнаты вперемешку с комментариями и командами
-** и в конце записаны связи между комнатами вперемешку только с комметариями
+** потом строка с количеством муравьёв,
+** следом комнаты вперемешку с комментариями и командами
+** и в конце связи между комнатами вперемешку только с комметариями
 **
-** количество муравьёв
-** название комнаты-x-y
+** количество_муравьёв
+** название_комнаты-x-y
 ** комната-комната
 */
 
 void	read_from_standard_output(t_lem_in *lemin)
 {
-	char		*line;
-	// t_buffer	buffer;
+	char	*line;
+	t_link	*links;
 
-	line = ft_strnew(1);
-	// ft_bzero(&buffer, sizeof(t_buffer));
-	get_next_line_2_0(&line);
-	first_line_is_int(line, &lemin->ants_at_start/*, &buffer*/);
-	lemin->rooms = (t_room *)malloc(sizeof(t_room) * MAX_ROOMS_NUM);
-	lines_with_rooms(lemin->rooms, &lemin->number_of_rooms,
-						&lemin->start_room, &lemin->end_room);
-	if (lemin->number_of_rooms < 2 || !lemin->start_room || !lemin->end_room)
-		end_parser(NULL);
-	// t_room *current;
-	// current = lemin->rooms;
-	// int i = lemin->number_of_rooms + 1;
-	// while (--i != 0)
-	// {
-	// 	printf("%s\n", current->name);
-	// 	current += 1;
-	// }
-	// t_chunk *tmp = buffer.start;
-	// while (tmp)
-	// {
-	// 	ft_putstr(((char *)tmp->chunk));
-	// 	tmp = tmp->next;
-	// }
-	// while (get_next_line(0, &line))
-	// {
-	// 	// printf("%s\n", line);
-	// 	free(line);
-	// }
+	links = NULL;
+	line = "";
+	if (get_next_line(0, &line) < 1)
+		end_with_error();
+	first_line_is_int(&line, &lemin->ants_at_start, lemin);
+	lines_with_rooms(lemin, &line);
+	check_start_end_exists(lemin, line);
+	check_duplicate_names(lemin);
+	lines_with_links(lemin, line, &links);
+	check_duplicate_links(lemin, links);
+	build_graph(lemin, &links);
 }

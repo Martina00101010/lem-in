@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   graph_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/05 11:58:29 by pberge            #+#    #+#             */
-/*   Updated: 2020/12/05 15:20:13 by pberge           ###   ########.fr       */
+/*   Created: 2020/12/20 17:47:09 by pberge            #+#    #+#             */
+/*   Updated: 2020/12/20 17:54:32 by pberge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 
-void	lem_in(void)
+void    check_graph(t_lem_in *lemin, t_link *links)
 {
-	t_lem_in	lemin;
+    t_room  *start;
 
-	ft_bzero(&lemin, sizeof(t_lem_in));
-	read_from_standard_output(&lemin);
-	end_lem_in(&lemin);
-}
-
-int		main(int argc, char **argv)
-{
-	if (argc != 1 || argv == NULL)
-		end_with_error();
-	lem_in();
-	return (0);
+    start = lemin->start_room;
+    if (lemin->start_room->exit_count == 0)
+        end_parser(NULL, lemin, links);
 }

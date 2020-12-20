@@ -15,30 +15,45 @@
 void	end_with_error(void)
 {
 	ft_putendl("ERROR");
-	exit(0);
+	exit(1);
 }
 
-void	end_parser(/*t_buffer *buffer, */char *line)
+void	end_links(t_link *link)
 {
-	// t_chunk	*lst;
-	// t_chunk	*tmp;
+	t_link	*tmp;
 
+	while (link != NULL)
+	{
+		tmp = link->next;
+		free(link);
+		link = tmp;
+	}
+}
+
+void	end_parser(char *line, t_lem_in *lemin, t_link *links)
+{
 	if (line != NULL)
 		free(line);
-	// lst = buffer->start;
-	// while (lst)
-	// {
-	// 	tmp = lst;
-	// 	lst = lst->next;
-	// 	ft_bzero(tmp, sizeof(t_chunk));
-	// 	free(tmp);
-	// }
-	// ft_bzero(buffer, sizeof(t_buffer));
-	ft_putendl("ERROR");
-	exit(1);
+	end_links(links);
+	end_lem_in(lemin);
+	end_with_error();
 }
 
 void	end_lem_in(t_lem_in *lemin)
 {
+	t_room *room;
+
+	room = lemin->rooms;
+	while (--lemin->number_of_rooms > -1)
+	{
+		if (room->name != NULL)
+			ft_strdel(&room->name);
+		// if (room->entrance != NULL)
+		// 	free(room->entrance);
+		if (room->exit != NULL)
+			free(room->exit);
+		room += 1;
+	}
 	free(lemin->rooms);
+	ft_bzero(lemin, sizeof(lemin));
 }

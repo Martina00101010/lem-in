@@ -16,7 +16,7 @@
 ** когда строка не влезает, увеличиваем буффер
 */
 
-char	*manage_too_large_string(t_buffer *buffer, char *line, size_t *len)
+/*char	*manage_too_large_string(t_buffer *buffer, char *line, size_t *len)
 {
 	size_t	copy;
 	t_chunk	*new;
@@ -37,13 +37,13 @@ char	*manage_too_large_string(t_buffer *buffer, char *line, size_t *len)
 		buffer->cursor = 0;
 	}
     return (line);
-}
+}*/
 
 /*
 ** сохраняем строку из файла в буффер
 */
 
-void	save_line(char *line, t_buffer *buffer)
+/*void	save_line(char *line, t_buffer *buffer)
 {
 	size_t	len;
 
@@ -59,4 +59,4 @@ void	save_line(char *line, t_buffer *buffer)
 	ft_memcpy(&buffer->current->chunk[buffer->cursor], line, len);
 	buffer->cursor = len;
     buffer->current->chunk[buffer->cursor] = '\n';
-}
+}*/

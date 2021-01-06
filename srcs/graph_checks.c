@@ -18,5 +18,5 @@ void    check_graph(t_lem_in *lemin, t_link *links)
 
     start = lemin->start_room;
     if (lemin->start_room->exit_count == 0)
-        end_parser(NULL, lemin, links);
+        end_with_error(NULL, lemin, links);
 }

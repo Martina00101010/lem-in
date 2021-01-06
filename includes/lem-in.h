@@ -23,7 +23,7 @@
 # define	BUFFER_SIZE		(size_t)8
 # define	ROOM_NAME_SIZE	(size_t)5
 # define	MAX_ROOMS_NUM	(size_t)5000
-# define	MAX_SHORT		(short)65535
+# define	MAX_SHORT		(short)32767
 
 /*
 ** комната
@@ -40,7 +40,7 @@ typedef struct	s_room
 	short			bfs_level;
 	short			entrance_count;
 	short			exit_count;
-	// struct s_room	**entrance;
+	struct s_room	**entrance;
 	struct s_room	**exit;
 }				t_room;
 
@@ -78,9 +78,9 @@ typedef struct	s_lem_in
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);
-void			end_with_error(void);
 void			end_lem_in(t_lem_in *lemin);
-void			end_parser(char *line, t_lem_in *lemin, t_link *link);
+void			print_error(void);
+void			end_with_error(char *line, t_lem_in *lemin, t_link *link);
 void			lines_with_rooms(t_lem_in *lemin, char **line);
 void			execute_command(char **line, t_lem_in *lemin, t_room *room);
 short			skip_comments(char **line, t_lem_in *lemin);
@@ -88,7 +88,7 @@ void			check_start_end_exists(t_lem_in *lemin, char *line);
 int				get_next_line_2_0(char **line, t_lem_in *lemin);
 char			*get_room_name(char **line, short len);
 void			lines_with_links(t_lem_in *lemin, char *line, t_link **links);
-short			check_duplicate_names(t_lem_in *lemin);
+void			check_duplicate_rooms(t_lem_in *lemin, char *line);
 void			build_graph(t_lem_in *lemin, t_link **links);
 void			check_links_total_number(t_lem_in *lemin, t_link *link);
 void			check_duplicate_links(t_lem_in *lemin, t_link *links);
@@ -97,5 +97,10 @@ void		    check_graph(t_lem_in *lemin, t_link *links);
 short		    push(t_queue **last, t_room *room);
 void			pop(t_queue **queue, t_queue **last);
 short			add_exits_to_queue(t_room *room, t_queue **last);
+void			debug_graph(t_lem_in *lemin);
+void			debug_queue(t_queue *queue);
+void		    remove_extra_links(t_lem_in *lemin, t_link *link);
+void			delete_link(t_link *link);
+void			debug_path(t_room *room);
 
 #endif

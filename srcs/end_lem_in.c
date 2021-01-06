@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-void	end_with_error(void)
+void	print_error(void)
 {
 	ft_putendl("ERROR");
 	exit(1);
@@ -30,13 +30,14 @@ void	end_links(t_link *link)
 	}
 }
 
-void	end_parser(char *line, t_lem_in *lemin, t_link *links)
+void	end_with_error(char *line, t_lem_in *lemin, t_link *links)
 {
 	if (line != NULL)
 		free(line);
-	end_links(links);
+	if (links != NULL)
+		end_links(links);
 	end_lem_in(lemin);
-	end_with_error();
+	print_error();
 }
 
 void	end_lem_in(t_lem_in *lemin)
@@ -48,8 +49,8 @@ void	end_lem_in(t_lem_in *lemin)
 	{
 		if (room->name != NULL)
 			ft_strdel(&room->name);
-		// if (room->entrance != NULL)
-		// 	free(room->entrance);
+		if (room->entrance != NULL)
+			free(room->entrance);
 		if (room->exit != NULL)
 			free(room->exit);
 		room += 1;

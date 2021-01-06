@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2020/12/20 18:15:30 by pberge           ###   ########.fr        #
+#    Updated: 2020/12/27 15:14:08 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,15 @@ SRC_DIR = srcs/
 SRC_FILES = main.c \
 			read_from_standard_output.c \
 			end_lem_in.c \
-			save_line.c \
 			lines_with_rooms.c \
 			lines_with_links.c \
 			checks.c \
 			build_graph.c \
 			graph_checks.c \
-			queue.c
+			queue.c \
+			get_room_name.c \
+			debug_print.c \
+			remove_extra_links.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_DIR = objs/

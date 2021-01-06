@@ -25,7 +25,7 @@ int		get_next_line_2_0(char **line, t_lem_in *lemin)
 
 	num_bytes = get_next_line(0, line);
 	if (num_bytes == -1)
-		end_parser(NULL, lemin, NULL);
+		end_with_error(NULL, lemin, NULL);
 	return (num_bytes);
 }
 
@@ -44,22 +44,24 @@ void	execute_command(char **line, t_lem_in *lemin, t_room *room)
 	char	*command;
 
 	command = *line;
-	while (command[0] == '#' && command[1] == '#')
+	if (command[0] == '#' && command[1] == '#')
 	{
 		if (ft_strcmp(command, "##start") == 0)
 		{
 			if (lemin->start_room != NULL)
-				end_parser(command, lemin, NULL);
+				end_with_error(command, lemin, NULL);
 			lemin->start_room = room;
 		}
 		if (ft_strcmp(command, "##end") == 0)
 		{
 			if (lemin->end_room != NULL)
-				end_parser(command, lemin, NULL);
+				end_with_error(command, lemin, NULL);
 			lemin->end_room = room;
+			lemin->end_room->bfs_level = MAX_SHORT;
 		}
 		free(command);
-		get_next_line_2_0(line, lemin);
+		if (get_next_line_2_0(line, lemin) == 0)
+			end_with_error(NULL, lemin, NULL);
 		command = *line;
 	}
 }
@@ -88,14 +90,14 @@ void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 	int		i;
 
 	i = -1;
-	skip_comments(line, lemin);
+	if (skip_comments(line, lemin) == 0)
+		end_with_error(NULL, lemin, NULL);
 	while ((*line)[0] && ft_isdigit((*line)[++i]))
 	{
 		*number_of_ants = *number_of_ants * 10 + (*line)[i] - '0';
 	}
-
 	if (*number_of_ants == 0 || (*line)[i] != '\0')
-		end_parser(*line, lemin, NULL);
+		end_with_error(*line, lemin, NULL);
 	free(*line);
 }
 
@@ -119,12 +121,13 @@ void	read_from_standard_output(t_lem_in *lemin)
 	links = NULL;
 	line = "";
 	if (get_next_line(0, &line) < 1)
-		end_with_error();
+		print_error();
 	first_line_is_int(&line, &lemin->ants_at_start, lemin);
 	lines_with_rooms(lemin, &line);
 	check_start_end_exists(lemin, line);
-	check_duplicate_names(lemin);
+	check_duplicate_rooms(lemin, line);
 	lines_with_links(lemin, line, &links);
 	check_duplicate_links(lemin, links);
 	build_graph(lemin, &links);
+	remove_extra_links(lemin, links);
 }

@@ -18,21 +18,22 @@ void	check_start_end_exists(t_lem_in *lemin, char *line)
 		lemin->start_room == NULL ||
 		lemin->end_room == NULL ||
 		line == NULL)
-		end_parser(line, lemin, NULL);
+		end_with_error(line, lemin, NULL);
 }
 
 void	check_links_total_number(t_lem_in *lemin, t_link *link)
 {
 	if (link != NULL && link->next != NULL)
 		return ;
-	end_parser(NULL, lemin, link);
+	end_with_error(NULL, lemin, link);
 }
 
 /*
-**  Названия комнат уникальны, поэтому любой дубликат - это ошибка
+**  Название комнаты и набор координат (x,y) уникальны для каждой комнаты,
+**	поэтому любой дубликат - это ошибка
 */
 
-short	check_duplicate_names(t_lem_in *lemin)
+void	check_duplicate_rooms(t_lem_in *lemin, char *line)
 {
 	t_room  *room;
 	t_room  *tmp;
@@ -48,14 +49,13 @@ short	check_duplicate_names(t_lem_in *lemin)
 		while (--j > -1)
 		{
 			if (ft_strcmp(room->name, tmp->name) == 0)
-				return (1);
+				end_with_error(line, lemin, NULL);
 			if (room->x == tmp->x && room->y == tmp->y)
-				return (1);
+				end_with_error(line, lemin, NULL);
 			tmp += 1;
 		}
 		room += 1;
 	}
-	return (0);
 }
 
 short	same_links(t_link *a, t_link *b)
@@ -74,7 +74,7 @@ void	check_duplicate_links(t_lem_in *lemin, t_link *links)
 	{
 		tmp = link->next;
 		if (same_links(link, tmp))
-			end_parser(NULL, lemin, links);
+			end_with_error(NULL, lemin, links);
 		link = link->next;
 	}
 }

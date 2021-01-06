@@ -13,17 +13,6 @@
 #include "lem-in.h"
 
 /*
-** проверка, что символ имени - буква, цифра или нижнее подчёркивание
-*/
-
-int		ft_issymbol(char c)
-{
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '_')
-		return (1);
-	return (0);
-}
-
-/*
 ** читаем координату комнаты.
 ** координата может быть только интом.
 ** лайфхак: генератор создаёт только положительные координаты,
@@ -41,37 +30,6 @@ int		get_room_coordinate(char **line)
 		(*line)++;
 	}
 	return (coord);
-}
-
-/*
-** записываем название комнаты.
-** название может состоять из букв, цифр и нижнего подчеркивания.
-** название комнаты не может начинаться на 'L'
-*/
-
-char	*get_room_name(char **line, short len)
-{
-	short	i;
-	char	*name;
-
-	i = -1;
-	if (len <= 0 || **line == 'L')
-		return (NULL);
-	name = ft_strnew(len);
-	if (name == NULL)
-		return (NULL);
-	while (++i < len)
-	{
-		if (!ft_issymbol(**line))
-		{
-			free(name);
-			return (NULL);
-		}
-		name[i] = **line;
-		(*line)++;
-	}
-	name[i] = '\0';
-	return (name);
 }
 
 void	get_room(char **line, t_room *room)
@@ -99,6 +57,18 @@ void	get_room(char **line, t_room *room)
 }
 
 /*
+**	пропускаем комментарии и команды
+*/
+void	skip_comments_and_commands(t_lem_in *lemin, char **line)
+{
+	if (skip_comments(line, lemin) == 0)
+		end_with_error(NULL, lemin, NULL);
+	execute_command(line, lemin, lemin->rooms + lemin->number_of_rooms);
+	if (skip_comments(line, lemin) == 0)
+		end_with_error(NULL, lemin, NULL);
+}
+
+/*
 ** читает построчно файл
 ** проверяет, что строка записана в формате "name x y"
 ** где name - название комнаты
@@ -118,14 +88,11 @@ void	lines_with_rooms(t_lem_in *lemin, char **line)
 	room = lemin->rooms;
 	while (get_next_line_2_0(line, lemin) > 0)
 	{
-		skip_comments(line, lemin);
-		if (*line == NULL)
-			end_parser(NULL, lemin, NULL);
-		execute_command(line, lemin, lemin->rooms + lemin->number_of_rooms);
+		skip_comments_and_commands(lemin, line);
 		to_free = *line;
 		get_room(line, room);
 		if (room->name == NULL && (*line == NULL || **line != '-'))
-			end_parser(to_free, lemin, NULL);
+			end_with_error(to_free, lemin, NULL);
 		if (**line == '-')
 		{
 			*line = to_free;

@@ -24,7 +24,7 @@ void	lem_in(void)
 int		main(int argc, char **argv)
 {
 	if (argc != 1 || argv == NULL)
-		end_with_error();
+		print_error();
 	lem_in();
 	return (0);
 }

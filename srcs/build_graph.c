@@ -12,22 +12,22 @@
 
 #include "lem-in.h"
 
-short	build_link(t_room *from, t_room *to)
+short	build_link(t_room ***room_links, t_room *new_link, short links_count)
 {
 	t_room	**new;
 
-	new = (t_room **)malloc(sizeof(t_room *) * (from->exit_count + 1));
+	new = (t_room **)malloc(sizeof(t_room *) * (links_count + 1));
 	if (!new)
 		return (0);
-	if (from->exit != NULL)
+	if (*room_links != NULL)
 	{
-		ft_memcpy((void *)new, (void *)(from->exit), sizeof(t_room *) * from->exit_count);
-		free(from->exit);
+		ft_memcpy((void *)new, (void *)(*room_links), sizeof(t_room *) * links_count);
+		free(*room_links);
 	}
-	new[from->exit_count] = to;
-	from->exit = new;
-	(from->exit_count)++;
-	return (1);
+	new[links_count] = new_link;
+	*room_links = new;
+	links_count++;
+	return (links_count);
 }
 
 void	delete_link(t_link *link)
@@ -44,14 +44,21 @@ void	delete_link(t_link *link)
 short	link_rooms(t_room *from, t_room *to, t_link *link, t_link **head)
 {
 	t_link	*next;
+	short	count;
 
 	next = link->next;
 	if (to->bfs_level > from->bfs_level ||
 		to->bfs_level == 0 ||
 		to->bfs_level == MAX_SHORT)
 	{
-		if (!build_link(from, to))
+		count = build_link(&(from->exit), to, from->exit_count);
+		if (count == 0)
 			return (1);
+		from->exit_count = count;
+		count = build_link(&(to->entrance), from, to->entrance_count);
+		if (count == 0)
+			return (1);
+		to->entrance_count = count;
 	}
 	if (link->prev == NULL)
 		*head = next;
@@ -71,17 +78,11 @@ short	find_exits(t_link **head, t_room *from)
 	{
 		next = link->next;
 		if (ft_strcmp(link->one->name, from->name) == 0)
-		{
 			error = link_rooms(from, link->two, link, head);
-			if (error)
-				return (0);
-		}
 		else if (ft_strcmp(link->two->name, from->name) == 0)
-		{
 			error = link_rooms(from, link->one, link, head);
-			if (error)
-				return (0);
-		}
+		if (error)
+			return (0);
 		link = next;
 	}
 	return (1);
@@ -102,9 +103,9 @@ void	build_graph(t_lem_in *lemin, t_link **links)
 	{
 		room = queue->room;
 		if (!find_exits(links, room))
-			end_parser(NULL, lemin, *links);
+			end_with_error(NULL, lemin, *links);
 		if (!add_exits_to_queue(room, &last))
-			end_parser(NULL, lemin, *links);
+			end_with_error(NULL, lemin, *links);
 		pop(&queue, &last);
 	}
 }

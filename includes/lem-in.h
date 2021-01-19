@@ -24,6 +24,8 @@
 # define	ROOM_NAME_SIZE	(size_t)5
 # define	MAX_ROOMS_NUM	(size_t)5000
 # define	MAX_SHORT		(short)32767
+# define	MAX_INT			(int)2147483647
+# define	START_PATH_LEN	0
 
 /*
 ** комната
@@ -55,6 +57,7 @@ typedef struct	s_link
 typedef struct	s_queue
 {
 	t_room			*room;
+	int				bfs;
 	struct s_queue	*next;
 }				t_queue;
 
@@ -96,6 +99,7 @@ void			check_duplicate_links(t_lem_in *lemin, t_link *links);
 void		    check_graph(t_lem_in *lemin, t_link *links);
 
 short		    push(t_queue **last, t_room *room);
+short			push_by_priority(t_queue **head, t_room *room);
 void			pop(t_queue **queue, t_queue **last);
 short			add_exits_to_queue(t_room *room, t_queue **last);
 void			debug_graph(t_lem_in *lemin);
@@ -112,5 +116,6 @@ void			remove_exit(t_room *room, t_room *exit, t_lem_in *lemin);
 void			remove_other_links(t_room *room, t_room *save,
 									t_lem_in *lemin);
 short		    remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin);
+void			remove_output_forks(t_lem_in *lemin);
 
 #endif

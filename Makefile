@@ -28,6 +28,7 @@ SRC_FILES = main.c \
 			find_largest_bfs_level.c \
 			remove_input_forks.c \
 			remove_links.c \
+			remove_output_forks.c \
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

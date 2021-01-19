@@ -16,7 +16,7 @@
 **	удаляем связь между комнатами
 */
 
-void	remove_link(t_room *room, t_room *delete, t_lem_in *lemin)
+void		remove_link(t_room *room, t_room *delete, t_lem_in *lemin)
 {
 	remove_entrance(room, delete, lemin);
 		debug_graph(lemin);
@@ -24,7 +24,7 @@ void	remove_link(t_room *room, t_room *delete, t_lem_in *lemin)
 		debug_graph(lemin);
 }
 
-short	previous_room_has_fork(t_room *room, t_lem_in *lemin)
+short		previous_room_has_fork(t_room *room, t_lem_in *lemin)
 {
 	t_room	*fork;
 	int	i;
@@ -43,7 +43,7 @@ short	previous_room_has_fork(t_room *room, t_lem_in *lemin)
 	return (0);
 }
 
-void	remove_forks(t_room *room, t_lem_in *lemin)
+static void	remove_forks(t_room *room, t_lem_in *lemin)
 {
 	t_room	*entrance;
 	int		i;
@@ -59,7 +59,7 @@ void	remove_forks(t_room *room, t_lem_in *lemin)
 	}
 }
 
-void	push_exits_to_queue(t_queue **last, t_room *room)
+void		push_exits_to_queue(t_queue **last, t_room *room)
 {
 	int		i;
 
@@ -68,7 +68,7 @@ void	push_exits_to_queue(t_queue **last, t_room *room)
 		push(last, room->exit[i]);
 }
 
-void	remove_input_forks(t_lem_in *lemin)
+void		remove_input_forks(t_lem_in *lemin)
 {
 	t_queue	*queue;
 	t_queue	*last;

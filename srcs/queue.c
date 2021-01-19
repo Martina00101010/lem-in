@@ -12,6 +12,34 @@
 
 #include "lem-in.h"
 
+short	push_by_priority(t_queue **head, t_room *room)
+{
+	t_queue	*q;
+	t_queue *new;
+
+	q = *head;
+	new = (t_queue *)malloc(sizeof(t_queue));
+	if (!new)
+		return (0);
+	ft_bzero(new, sizeof(t_queue));
+	new->room = room;
+	if (q == NULL)
+		*head = new;
+	else if (q->room->bfs_level < room->bfs_level)
+	{
+		new->next = q;
+		*head = new;
+	}
+	else
+	{
+		while (q->next != NULL && q->next->room->bfs_level >= room->bfs_level)
+			q = q->next;
+		new->next = q->next;
+		q->next = new;
+	}
+	return (1);
+}
+
 short	push(t_queue **last, t_room *room)
 {
 	t_queue *new;

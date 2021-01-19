@@ -19,6 +19,9 @@ void	lem_in(void)
 	ft_bzero(&lemin, sizeof(t_lem_in));
 	read_from_standard_output(&lemin);
 	remove_input_forks(&lemin);
+    remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
+	remove_output_forks(&lemin);
+    remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
 	debug_graph(&lemin);
 	end_lem_in(&lemin);
 }

@@ -12,12 +12,12 @@
 
 #include "lem-in.h"
 
-int			get_path_len(t_room *room, t_room *end)
+int			get_path_len(t_room *room)
 {
 	int len_path;
 
 	len_path = 0;
-	while (room != end)
+	while (room->bfs_level != MAX_SHORT)
 	{
 		room = room->exit[0];
 		len_path++;
@@ -38,7 +38,7 @@ t_room		*get_best_exit(t_room *room, t_lem_in *lemin)
 	min_path_len = MAX_INT;
 	while (++i < room->exit_count)
 	{
-		path_len = get_path_len(room->exit[i], lemin->end_room);
+		path_len = get_path_len(room->exit[i]);
 		if (path_len < min_path_len)
 		{
 			min_path_len = path_len;
@@ -67,7 +67,7 @@ void		remove_path_from(t_room *room)
 	k = 0;
 	while (i < room->entrance_count)
 	{
-		if (room->entrance[i] != NULL)
+		if (room->entrance[i]->name != NULL)
 		{
 			room->entrance[k] = room->entrance[i];
 			k++;

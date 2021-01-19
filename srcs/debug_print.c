@@ -22,15 +22,19 @@ void	debug_graph(t_lem_in *lemin)
 	while (++k < lemin->number_of_rooms)
 	{
 		room = lemin->rooms + k;
+		if (room->bfs_level == 1)
+			printf("## start room \n");
+		if (room->bfs_level == MAX_SHORT)
+			printf("## end room \n");
 		if (room->bfs_level == 0)
 			continue ;
 		printf("room %s exits: ", room->name);
-		i = room->exit_count;
-		while (i-- > 0)
+		i = -1;
+		while (++i < room->exit_count)
 			printf(" %s", room->exit[i]->name);
 		printf("\tentrances: ");
-		i = room->entrance_count;
-		while (i-- > 0)
+		i = -1;
+		while (++i < room->entrance_count)
 			printf(" %s", room->entrance[i]->name);
 		printf("\n");
 	}

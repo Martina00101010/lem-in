@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_largest_bfs_level.c                           :+:      :+:    :+:   */
+/*   remove_input_forks.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,17 +12,40 @@
 
 #include "lem-in.h"
 
-int	find_largest_bfs_level(t_room *end)
+void		print_ant_move(char *room_name, int ant_number)
 {
-	short	i;
-	short	largest_bfs;
+	ft_putstr("\x1B[96mL");
+	ft_putnbr(ant_number);
+	ft_putstr("\x1B[0m-\x1B[34m");
+	ft_putstr(room_name);
+	ft_putstr("\x1B[0m ");
+}
 
-	largest_bfs = 0;
-	i = end->entrance_count;
-	while (i-- > 0)
+void		print_file_contents(char *file)
+{
+
+}
+
+t_linked	*linked_new(char *str)
+{
+	t_linked	*l;
+
+	l = (t_linked *)ft_memalloc(sizeof(t_linked));
+	l->data = str;
+	return (l);
+}
+
+void		linked_add(t_linked **head, char *str)
+{
+	t_linked	*l;
+
+	if (*head == NULL)
+		*head = linked_new(str);
+	else
 	{
-		if (largest_bfs < end->entrance[i]->bfs_level)
-			largest_bfs = end->entrance[i]->bfs_level;
+		l = linked_new(str);
+		(*head)->prev = l;
+		l->next = *head;
+		*head = l;
 	}
-	return (largest_bfs);
 }

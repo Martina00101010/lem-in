@@ -22,6 +22,7 @@ void	lem_in(void)
     remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
 	remove_output_forks(&lemin);
     remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
+	ready(&lemin);
 	end_lem_in(&lemin);
 }
 

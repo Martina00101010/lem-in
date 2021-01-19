@@ -27,6 +27,13 @@
 # define	MAX_INT			(int)2147483647
 # define	START_PATH_LEN	0
 
+typedef struct	s_linked
+{
+	char			*data;
+	struct s_linked	*next;
+	struct s_linked	*prev;
+}				t_linked;
+
 /*
 ** комната
 // ** в комнату можно попасть из комнат entrance,
@@ -79,6 +86,7 @@ typedef struct	s_lem_in
 	t_room		*start_room;
 	t_room		*end_room;
 	short		largest_bfs;
+	t_linked	*contents;
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);
@@ -111,11 +119,18 @@ void			debug_path(t_room *room);
 int				find_largest_bfs_level(t_room *end);
 void			remove_input_forks(t_lem_in *lemin);
 void			remove_entrance(t_room *room, t_room *entrance,
-								t_lem_in *lemin);
+									t_lem_in *lemin);
 void			remove_exit(t_room *room, t_room *exit, t_lem_in *lemin);
 void			remove_other_links(t_room *room, t_room *save,
 									t_lem_in *lemin);
 short		    remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin);
 void			remove_output_forks(t_lem_in *lemin);
+int				get_path_len(t_room *room);
+void			ready(t_lem_in *lemin);
+void			move_ants(t_room *start, t_room *end, int *paths,
+									int *ant_number);
+void			print_ant_move(char *room_name, int ant_number);
+t_linked		*linked_new(char *str);
+void			linked_add(t_linked **head, char *str);
 
 #endif

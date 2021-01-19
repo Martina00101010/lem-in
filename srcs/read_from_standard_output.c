@@ -59,7 +59,8 @@ void	execute_command(char **line, t_lem_in *lemin, t_room *room)
 			lemin->end_room = room;
 			lemin->end_room->bfs_level = MAX_SHORT;
 		}
-		free(command);
+		// free(command);
+		linked_add(&lemin->contents, command);
 		if (get_next_line_2_0(line, lemin) == 0)
 			end_with_error(NULL, lemin, NULL);
 		command = *line;
@@ -74,7 +75,8 @@ short	skip_comments(char **line, t_lem_in *lemin)
 {
 	while ((*line)[0] && (*line)[0] == '#' && (*line)[1] != '#')
 	{
-		free(*line);
+		linked_add(&lemin->contents, *line);
+		// free(*line);
 		if (get_next_line_2_0(line, lemin) == 0)
 			return (0);
 	}
@@ -98,6 +100,7 @@ void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 	}
 	if (*number_of_ants == 0 || (*line)[i] != '\0')
 		end_with_error(*line, lemin, NULL);
+	lemin->contents = linked_new(*line);
 	free(*line);
 }
 
@@ -129,9 +132,7 @@ void	read_from_standard_output(t_lem_in *lemin)
 	lines_with_links(lemin, line, &links);
 	check_duplicate_links(lemin, links);
 	build_graph(lemin, &links);
-	// debug_graph(lemin);
 	remove_extra_links(lemin, links);
     remove_dead_ends(lemin->start_room, lemin->end_room, lemin);
-	lemin->largest_bfs = find_largest_bfs_level(lemin->end_room) + 1;
-	// printf("largest bfs %i\n", lemin->largest_bfs);
+	//
 }

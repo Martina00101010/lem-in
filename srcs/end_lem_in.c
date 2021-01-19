@@ -32,8 +32,8 @@ void	end_links(t_link *link)
 
 void	end_with_error(char *line, t_lem_in *lemin, t_link *links)
 {
-	if (line != NULL)
-		free(line);
+	// if (line != NULL)
+	// 	free(line);
 	if (links != NULL)
 		end_links(links);
 	end_lem_in(lemin);

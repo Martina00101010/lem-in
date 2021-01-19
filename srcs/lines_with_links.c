@@ -88,6 +88,7 @@ void    lines_with_links(t_lem_in *lemin, char *line, t_link **links)
     {
 		if (!skip_comments(&line, lemin))
 			return ;
+		linked_add(&lemin->contents, line);
 		to_free = line;
 		one = get_pointer_of_room(lemin, &line, '-');
 		two = get_pointer_of_room(lemin, &line, '\0');
@@ -95,7 +96,7 @@ void    lines_with_links(t_lem_in *lemin, char *line, t_link **links)
 			end_with_error(to_free, lemin, NULL);
 		if (!save_link(links, &last, one, two))
 			end_with_error(to_free, lemin, NULL);
-		free(to_free);
+		// free(to_free);
 	    num_bytes = get_next_line(0, &line);
 		if (num_bytes == -1)
 			end_with_error(NULL, lemin, NULL);

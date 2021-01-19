@@ -32,7 +32,8 @@ void	remove_de_from_exits(t_room *room, t_room *extra)
 			k++;
 		i++;
 	}
-	room->exit[k] = NULL;
+	if (room->exit_count > 0)
+		room->exit[k] = NULL;
 }
 
 short	remove_room_from_graph(t_room *dead_end)
@@ -42,11 +43,9 @@ short	remove_room_from_graph(t_room *dead_end)
 	i = -1;
 	while (++i < dead_end->entrance_count)
 		remove_de_from_exits(dead_end->entrance[i], dead_end);
-	dead_end->bfs_level = 0;
 	free(dead_end->name);
-	dead_end->name = NULL;
 	free(dead_end->entrance);
-	dead_end->entrance = NULL;
+	ft_bzero(dead_end, sizeof(t_room));
 }
 
 short    remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin)

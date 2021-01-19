@@ -25,10 +25,12 @@ SRC_FILES = main.c \
 			get_room_name.c \
 			debug_print.c \
 			remove_extra_links.c \
-			find_largest_bfs_level.c \
 			remove_input_forks.c \
 			remove_links.c \
 			remove_output_forks.c \
+			on_start.c \
+			go.c \
+			prints.c \
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

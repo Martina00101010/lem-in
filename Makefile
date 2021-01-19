@@ -24,7 +24,11 @@ SRC_FILES = main.c \
 			queue.c \
 			get_room_name.c \
 			debug_print.c \
-			remove_extra_links.c
+			remove_extra_links.c \
+			find_largest_bfs_level.c \
+			remove_input_forks.c \
+			remove_links.c \
+
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_DIR = objs/

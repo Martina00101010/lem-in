@@ -14,24 +14,25 @@
 
 void	debug_graph(t_lem_in *lemin)
 {
-	t_room *start;
-	short i;
+	t_room	*room;
+	short	i;
+	short	k;
 
-	start = lemin->start_room;
-	while (--lemin->number_of_rooms > -1)
+	k = -1;
+	while (++k < lemin->number_of_rooms)
 	{
-		if (start->bfs_level == 0)
+		room = lemin->rooms + k;
+		if (room->bfs_level == 0)
 			continue ;
-		printf("room %s exits: ", start->name);
-		i = start->exit_count;
+		printf("room %s exits: ", room->name);
+		i = room->exit_count;
 		while (i-- > 0)
-			printf(" %s", start->exit[i]->name);
+			printf(" %s", room->exit[i]->name);
 		printf("\tentrances: ");
-		i = start->entrance_count;
+		i = room->entrance_count;
 		while (i-- > 0)
-			printf(" %s", start->entrance[i]->name);
+			printf(" %s", room->entrance[i]->name);
 		printf("\n");
-		start += 1;
 	}
 }
 

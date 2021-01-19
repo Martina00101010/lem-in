@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-void	remove_room_from_exits(t_room *room, t_room *extra)
+void	remove_de_from_exits(t_room *room, t_room *extra)
 {
 	short   i;
 	short   k;
@@ -32,27 +32,30 @@ void	remove_room_from_exits(t_room *room, t_room *extra)
 			k++;
 		i++;
 	}
+	room->exit[k] = NULL;
 }
 
-short	remove_room_from_graph(t_room *room)
+short	remove_room_from_graph(t_room *dead_end)
 {
 	short   i;
 
 	i = -1;
-	while (++i < room->entrance_count)
-		remove_room_from_exits(room->entrance[i], room);
-	room->bfs_level = 0;
-	free(room->name);
-	room->name = NULL;
-	free(room->entrance);
-	room->entrance = NULL;
+	while (++i < dead_end->entrance_count)
+		remove_de_from_exits(dead_end->entrance[i], dead_end);
+	dead_end->bfs_level = 0;
+	free(dead_end->name);
+	dead_end->name = NULL;
+	free(dead_end->entrance);
+	dead_end->entrance = NULL;
 }
 
 short    remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin)
 {
     short   i;
 
-    if (room->bfs_level != MAX_SHORT && room->exit_count == 0)
+	if (room->bfs_level == MAX_SHORT)
+		return (0);
+	if (room->exit_count == 0)
 		return (1);
     i = room->exit_count;
     while (--i > -1)
@@ -60,9 +63,7 @@ short    remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin)
         if (remove_dead_ends(room->exit[i], end, lemin))
             remove_room_from_graph(room->exit[i]);
     }
-	if (room->bfs_level != MAX_SHORT && room->exit_count == 0)
-		remove_room_from_graph(room);
-	return (0);
+	return (room->exit_count == 0 ? 1 : 0);
 }
 
 void    remove_extra_links(t_lem_in *lemin, t_link *link)
@@ -75,5 +76,4 @@ void    remove_extra_links(t_lem_in *lemin, t_link *link)
         delete_link(link);
         link = next;
     }
-    remove_dead_ends(lemin->start_room, lemin->end_room, lemin);
 }

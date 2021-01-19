@@ -75,6 +75,7 @@ typedef struct	s_lem_in
 	short		number_of_rooms;
 	t_room		*start_room;
 	t_room		*end_room;
+	short		largest_bfs;
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);
@@ -102,5 +103,14 @@ void			debug_queue(t_queue *queue);
 void		    remove_extra_links(t_lem_in *lemin, t_link *link);
 void			delete_link(t_link *link);
 void			debug_path(t_room *room);
+
+int				find_largest_bfs_level(t_room *end);
+void			remove_input_forks(t_lem_in *lemin);
+void			remove_entrance(t_room *room, t_room *entrance,
+								t_lem_in *lemin);
+void			remove_exit(t_room *room, t_room *exit, t_lem_in *lemin);
+void			remove_other_links(t_room *room, t_room *save,
+									t_lem_in *lemin);
+short		    remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin);
 
 #endif

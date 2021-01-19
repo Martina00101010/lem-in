@@ -12,6 +12,11 @@
 
 #include "lem-in.h"
 
+/*
+**	должен остаться хотя бы один вход в комнату,
+**	поэтому проверки на количество выходов нет
+*/
+
 void	remove_entrance(t_room *room, t_room *entrance, t_lem_in *lemin)
 {
 	t_room	**links;
@@ -33,11 +38,16 @@ void	remove_entrance(t_room *room, t_room *entrance, t_lem_in *lemin)
 		}
 		i++;
 	}
+	free(room->entrance);
 	room->entrance = links;
 	room->entrance_count--;
-	printf("removed entrance %s from %s\n", entrance->name, room->name);
 }
-// должен остаться хотя бы один выход из комнаты, поэтому проверки на количество выходов нет
+
+/*
+**	должен остаться хотя бы один выход из комнаты,
+**	поэтому проверки на количество выходов нет
+*/
+
 void	remove_exit(t_room *room, t_room *exit, t_lem_in *lemin)
 {
 	t_room	**links;
@@ -60,8 +70,8 @@ void	remove_exit(t_room *room, t_room *exit, t_lem_in *lemin)
 		i++;
 	}
 	room->exit_count--;
+	free(room->exit);
 	room->exit = links;
-	printf("removed exit %s from %s\n", exit->name, room->name);
 }
 
 void	remove_other_links(t_room *room, t_room *save, t_lem_in *lemin)

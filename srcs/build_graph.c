@@ -91,21 +91,19 @@ short	find_exits(t_link **head, t_room *from)
 void	build_graph(t_lem_in *lemin, t_link **links)
 {
 	t_queue	*queue;
-	t_queue	*last;
 	t_room	*room;
 
 	queue = NULL;
 	lemin->start_room->bfs_level = 1;
 	lemin->end_room->bfs_level = MAX_SHORT;
 	push(&queue, lemin->start_room);
-	last = queue;
 	while (queue != NULL)
 	{
 		room = queue->room;
 		if (!find_exits(links, room))
 			end_with_error(NULL, lemin, *links);
-		if (!add_exits_to_queue(room, &last))
+		if (!add_exits_to_queue(room, &queue))
 			end_with_error(NULL, lemin, *links);
-		pop(&queue, &last);
+		pop(&queue);
 	}
 }

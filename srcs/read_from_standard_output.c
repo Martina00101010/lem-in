@@ -129,9 +129,9 @@ void	read_from_standard_output(t_lem_in *lemin)
 	lines_with_links(lemin, line, &links);
 	check_duplicate_links(lemin, links);
 	build_graph(lemin, &links);
-	debug_graph(lemin);
+	// debug_graph(lemin);
 	remove_extra_links(lemin, links);
     remove_dead_ends(lemin->start_room, lemin->end_room, lemin);
 	lemin->largest_bfs = find_largest_bfs_level(lemin->end_room) + 1;
-	printf("%i\n", lemin->largest_bfs);
+	// printf("largest bfs %i\n", lemin->largest_bfs);
 }

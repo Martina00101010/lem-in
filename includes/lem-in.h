@@ -100,7 +100,7 @@ void		    check_graph(t_lem_in *lemin, t_link *links);
 
 short		    push(t_queue **last, t_room *room);
 short			push_by_priority(t_queue **head, t_room *room);
-void			pop(t_queue **queue, t_queue **last);
+void			pop(t_queue **queue);
 short			add_exits_to_queue(t_room *room, t_queue **last);
 void			debug_graph(t_lem_in *lemin);
 void			debug_queue(t_queue *queue);

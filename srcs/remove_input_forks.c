@@ -19,9 +19,7 @@
 void		remove_link(t_room *room, t_room *delete, t_lem_in *lemin)
 {
 	remove_entrance(room, delete, lemin);
-		debug_graph(lemin);
 	remove_exit(delete, room, lemin);
-		debug_graph(lemin);
 }
 
 short		previous_room_has_fork(t_room *room, t_lem_in *lemin)
@@ -59,30 +57,28 @@ static void	remove_forks(t_room *room, t_lem_in *lemin)
 	}
 }
 
-void		push_exits_to_queue(t_queue **last, t_room *room)
+void		push_exits_to_queue(t_queue **queue, t_room *room)
 {
 	int		i;
 
 	i = -1;
 	while (++i < room->exit_count && room->exit[i]->bfs_level != MAX_SHORT)
-		push(last, room->exit[i]);
+		push(queue, room->exit[i]);
 }
 
 void		remove_input_forks(t_lem_in *lemin)
 {
 	t_queue	*queue;
-	t_queue	*last;
 	t_room	*room;
 
 	queue = NULL;
 	push_exits_to_queue(&queue, lemin->start_room);
-	last = queue;
 	while (queue != NULL)
 	{
 		room = queue->room;
-		push_exits_to_queue(&last, room);
+		push_exits_to_queue(&queue, room);
 		if (room->entrance_count > 1)
 			remove_forks(room, lemin);
-		pop(&queue, &last);
+		pop(&queue);
 	}
 }

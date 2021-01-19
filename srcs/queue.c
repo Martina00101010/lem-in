@@ -40,22 +40,29 @@ short	push_by_priority(t_queue **head, t_room *room)
 	return (1);
 }
 
-short	push(t_queue **last, t_room *room)
+short	push(t_queue **queue, t_room *room)
 {
 	t_queue *new;
+	t_queue	*q;
 
+	q = *queue;
 	new = (t_queue *)malloc(sizeof(t_queue));
 	if (!new)
 		return (0);
 	ft_bzero(new, sizeof(t_queue));
 	new->room = room;
-	if (*last != NULL)
-		(*last)->next = new;
-	(*last) = new;
+	if (q == NULL)
+		*queue = new;
+	else
+	{
+		while (q->next != NULL)
+			q = q->next;
+		q->next = new;
+	}
 	return (1);
 }
 
-void 	pop(t_queue **queue, t_queue **last)
+void 	pop(t_queue **queue)
 {
 	t_queue *next;
 
@@ -65,8 +72,6 @@ void 	pop(t_queue **queue, t_queue **last)
 		free(*queue);
 		*queue = next;
 	}
-	else
-		*last = NULL;
 }
 
 short   add_exits_to_queue(t_room *room, t_queue **last)

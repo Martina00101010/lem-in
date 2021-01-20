@@ -21,7 +21,6 @@ SRC_FILES = main.c \
 			lines_with_links.c \
 			checks.c \
 			build_graph.c \
-			graph_checks.c \
 			queue.c \
 			get_room_name.c \
 			debug_print.c \
@@ -45,14 +44,13 @@ HEADERS = includes/lem_in.h libft/includes/libft.h
 DEBUG = -g -ggdb3
 
 CC = gcc
-#FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 all: $(PROJECT_BINARY)
 
 $(PROJECT_BINARY): $(OBJ)
 	@make -s -C libft
-#	@$(CC) $(FLAGS) -o $(PROJECT_BINARY) $(OBJ) $(INCLUDES) $(LIBRARIES)
-	@$(CC) $(FLAGS) $(DEBUG) -o $(PROJECT_BINARY) $(SRC) $(INCLUDES) $(LIBRARIES)
+	@$(CC) $(FLAGS) -o $(PROJECT_BINARY) $(OBJ) $(INCLUDES) $(LIBRARIES)
 	@echo "recompiled project binary"
 
 $(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)

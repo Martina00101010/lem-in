@@ -24,11 +24,9 @@ void		remove_link(t_room *room, t_room *delete, t_lem_in *lemin)
 
 short		previous_room_has_fork(t_room *room, t_lem_in *lemin)
 {
-	t_room	*fork;
 	int		i;
 
 	i = -1;
-	fork = NULL;
 	if (room == lemin->start_room)
 		return (0);
 	if (room->exit_count > 1)

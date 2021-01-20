@@ -104,7 +104,6 @@ void			check_duplicate_rooms(t_lem_in *lemin, char *line);
 void			build_graph(t_lem_in *lemin, t_link **links);
 void			check_links_total_number(t_lem_in *lemin, t_link *link);
 void			check_duplicate_links(t_lem_in *lemin, t_link *links);
-void			check_graph(t_lem_in *lemin, t_link *links);
 
 short			push(t_queue **last, t_room *room);
 short			push_by_priority(t_queue **head, t_room *room);
@@ -112,7 +111,7 @@ void			pop(t_queue **queue);
 short			add_exits_to_queue(t_room *room, t_queue **last);
 void			debug_graph(t_lem_in *lemin);
 void			debug_queue(t_queue *queue);
-void			remove_extra_links(t_lem_in *lemin, t_link *link);
+void			remove_extra_links(t_link *link);
 void			delete_link(t_link *link);
 void			debug_path(t_room *room);
 

@@ -128,6 +128,6 @@ void	read_from_standard_output(t_lem_in *lemin)
 	lines_with_links(lemin, line, &links);
 	check_duplicate_links(lemin, links);
 	build_graph(lemin, &links);
-	remove_extra_links(lemin, links);
+	remove_extra_links(links);
 	remove_dead_ends(lemin->start_room, lemin->end_room, lemin);
 }

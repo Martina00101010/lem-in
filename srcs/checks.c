@@ -60,8 +60,8 @@ void	check_duplicate_rooms(t_lem_in *lemin, char *line)
 
 short	same_links(t_link *a, t_link *b)
 {
-	return (a->one == b->one && a->two == b->two ||
-			a->one == b->two && a->two == b->one);
+	return ((a->one == b->one && a->two == b->two) ||
+			(a->one == b->two && a->two == b->one));
 }
 
 void	check_duplicate_links(t_lem_in *lemin, t_link *links)

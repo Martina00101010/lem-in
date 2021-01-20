@@ -35,7 +35,6 @@ int		get_room_coordinate(char **line)
 void	get_room(char **line, t_room *room)
 {
 	char	*stop;
-	short	len;
 
 	stop = ft_strchr(*line, ' ');
 	if (stop == NULL)

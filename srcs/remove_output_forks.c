@@ -25,7 +25,7 @@ int			get_path_len(t_room *room)
 	return (len_path);
 }
 
-t_room		*get_best_exit(t_room *room, t_lem_in *lemin)
+t_room		*get_best_exit(t_room *room)
 {
 	int		i;
 	int		path_len;
@@ -83,7 +83,7 @@ static void	remove_forks(t_room *room, t_lem_in *lemin)
 	int		i;
 
 	i = -1;
-	best = get_best_exit(room, lemin);
+	best = get_best_exit(room);
 	while (++i < room->exit_count)
 	{
 		if (room->exit[i] != best)
@@ -91,6 +91,8 @@ static void	remove_forks(t_room *room, t_lem_in *lemin)
 	}
 	free(room->exit);
 	room->exit = (t_room **)ft_memalloc(sizeof(t_room *));
+	if (!room->exit)
+		end_with_error(NULL, lemin, NULL);
 	room->exit[0] = best;
 	room->exit_count = 1;
 }
@@ -99,8 +101,6 @@ void		remove_output_forks(t_lem_in *lemin)
 {
 	t_room	*room;
 	t_queue	*q;
-	t_queue	*current;
-	t_queue	*last;
 
 	q = NULL;
 	room = lemin->end_room;

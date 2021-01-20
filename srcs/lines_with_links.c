@@ -40,7 +40,7 @@ t_room	*get_pointer_of_room(t_lem_in *lemin, char **line, char delimiter)
 	return (room);
 }
 
-t_link	*create_link(t_link **links, t_link **last, t_room *one, t_room *two)
+t_link	*create_link(t_room *one, t_room *two)
 {
 	t_link	*new;
 
@@ -57,7 +57,7 @@ short	save_link(t_link **links, t_link **last, t_room *one, t_room *two)
 {
 	t_link	*new;
 
-	new = create_link(links, last, one, two);
+	new = create_link(one, two);
 	if (new == NULL)
 		return (0);
 	if (*links == NULL)

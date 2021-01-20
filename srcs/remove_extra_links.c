@@ -36,7 +36,7 @@ void	remove_de_from_exits(t_room *room, t_room *extra)
 		room->exit[k] = NULL;
 }
 
-short	remove_room_from_graph(t_room *dead_end)
+void	remove_room_from_graph(t_room *dead_end)
 {
 	short	i;
 
@@ -65,7 +65,7 @@ short	remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin)
 	return (room->exit_count == 0 ? 1 : 0);
 }
 
-void	remove_extra_links(t_lem_in *lemin, t_link *link)
+void	remove_extra_links(t_link *link)
 {
 	t_link	*next;
 

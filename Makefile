@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 PROJECT_BINARY = lem-in
+TESTS_BINARY = lemin_unit_tests
 
 SRC_DIR = srcs/
 SRC_FILES = main.c \
@@ -62,7 +63,8 @@ $(OBJ_DIR):
 
 tests:
 	@make -s -C libft
-	@$(CC) lemin_unit_tests.c -o lemin_unit_tests $(INCLUDES) $(LIBRARIES) ; ./lemin_unit_tests
+	@$(CC) $(SRC_DIR)/lemin_unit_tests.c -o $(TESTS_BINARY) $(INCLUDES) $(LIBRARIES)
+	@./$(TESTS_BINARY)
 
 clean:
 	@rm -rf $(OBJ_DIR)*
@@ -70,6 +72,7 @@ clean:
 
 fclean: clean
 	@rm -f $(PROJECT_BINARY)
+	@rm -f $(TESTS_BINARY)
 	@make -s -C libft fclean
 
 re: fclean all

@@ -39,7 +39,7 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
 INCLUDES = -I includes -I libft/includes
 LIBRARIES = -L libft -lft
-HEADERS = includes/lem-in.h libft/includes/libft.h
+HEADERS = includes/lem_in.h libft/includes/libft.h
 
 DEBUG = -g -ggdb3
 

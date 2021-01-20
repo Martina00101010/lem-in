@@ -10,17 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
-
-/**
- * prepare ants paths
- * sort paths
- * move ants
- * 		move ants from graph (if there are any)
- * 		move ants from start
- * 			for each ant make decision if do move and in which path
- * show states
-*/
+#include "lem_in.h"
 
 void	sort_paths(int *path, int count, t_room **exit)
 {

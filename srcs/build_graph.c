@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 short	build_link(t_room ***room_links, t_room *new_link, short links_count)
 {
@@ -21,7 +21,8 @@ short	build_link(t_room ***room_links, t_room *new_link, short links_count)
 		return (0);
 	if (*room_links != NULL)
 	{
-		ft_memcpy((void *)new, (void *)(*room_links), sizeof(t_room *) * links_count);
+		ft_memcpy((void *)new, (void *)(*room_links), sizeof(t_room *) *
+																links_count);
 		free(*room_links);
 	}
 	new[links_count] = new_link;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 void	check_start_end_exists(t_lem_in *lemin, char *line)
 {
@@ -35,10 +35,10 @@ void	check_links_total_number(t_lem_in *lemin, t_link *link)
 
 void	check_duplicate_rooms(t_lem_in *lemin, char *line)
 {
-	t_room  *room;
-	t_room  *tmp;
-	short   i;
-	short   j;
+	t_room	*room;
+	t_room	*tmp;
+	short	i;
+	short	j;
 
 	i = lemin->number_of_rooms;
 	room = lemin->rooms;
@@ -73,8 +73,12 @@ void	check_duplicate_links(t_lem_in *lemin, t_link *links)
 	while (link->next != NULL)
 	{
 		tmp = link->next;
-		if (same_links(link, tmp))
-			end_with_error(NULL, lemin, links);
+		while (tmp)
+		{
+			if (same_links(link, tmp))
+				end_with_error(NULL, lemin, links);
+			tmp = tmp->next;
+		}
 		link = link->next;
 	}
 }

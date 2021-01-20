@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 void	print_error(void)
 {
@@ -30,12 +30,27 @@ void	end_links(t_link *link)
 	}
 }
 
+void	end_content(t_linked *l)
+{
+	t_linked	*next;
+
+	while (l)
+	{
+		next = l->next;
+		free(l->data);
+		free(l);
+		l = next;
+	}
+}
+
 void	end_with_error(char *line, t_lem_in *lemin, t_link *links)
 {
-	// if (line != NULL)
-	// 	free(line);
+	if (line != NULL)
+		free(line);
 	if (links != NULL)
 		end_links(links);
+	if (lemin->contents != NULL)
+		end_content(lemin->contents);
 	end_lem_in(lemin);
 	print_error();
 }

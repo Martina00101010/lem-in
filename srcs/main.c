@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 void	lem_in(void)
 {
@@ -19,9 +19,11 @@ void	lem_in(void)
 	ft_bzero(&lemin, sizeof(t_lem_in));
 	read_from_standard_output(&lemin);
 	remove_input_forks(&lemin);
-    remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
+	remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
 	remove_output_forks(&lemin);
-    remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
+	remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
+	check_path_to_end_exists(&lemin);
+	print_file_contents(lemin.contents);
 	ready(&lemin);
 	end_lem_in(&lemin);
 }

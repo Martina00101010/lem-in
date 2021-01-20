@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 t_room	*find_room(t_room *room, char *name, short index)
 {
@@ -74,31 +74,28 @@ short	save_link(t_link **links, t_link **last, t_room *one, t_room *two)
 	return (1);
 }
 
-void    lines_with_links(t_lem_in *lemin, char *line, t_link **links)
+void	lines_with_links(t_lem_in *lemin, char *line, t_link **links)
 {
-    int		num_bytes;
+	int		num_bytes;
 	t_room	*one;
 	t_room	*two;
-	char	*to_free;
 	t_link	*last;
 
 	last = NULL;
 	num_bytes = 1;
-    while (num_bytes > 0)
-    {
+	while (num_bytes > 0)
+	{
 		if (!skip_comments(&line, lemin))
 			return ;
 		linked_add(&lemin->contents, line);
-		to_free = line;
 		one = get_pointer_of_room(lemin, &line, '-');
 		two = get_pointer_of_room(lemin, &line, '\0');
 		if (one == NULL || two == NULL || one == two)
-			end_with_error(to_free, lemin, NULL);
+			end_with_error(NULL, lemin, NULL);
 		if (!save_link(links, &last, one, two))
-			end_with_error(to_free, lemin, NULL);
-		// free(to_free);
-	    num_bytes = get_next_line(0, &line);
+			end_with_error(NULL, lemin, NULL);
+		num_bytes = get_next_line(0, &line);
 		if (num_bytes == -1)
 			end_with_error(NULL, lemin, NULL);
-    }
+	}
 }

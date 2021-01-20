@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 /*
 ** читаем координату комнаты.
@@ -59,6 +59,7 @@ void	get_room(char **line, t_room *room)
 /*
 **	пропускаем комментарии и команды
 */
+
 void	skip_comments_and_commands(t_lem_in *lemin, char **line)
 {
 	if (skip_comments(line, lemin) == 0)
@@ -66,22 +67,21 @@ void	skip_comments_and_commands(t_lem_in *lemin, char **line)
 	execute_command(line, lemin, lemin->rooms + lemin->number_of_rooms);
 	if (skip_comments(line, lemin) == 0)
 		end_with_error(NULL, lemin, NULL);
-	linked_add(&lemin->contents, *line);
 }
 
 /*
 ** читает построчно файл
 ** проверяет, что строка записана в формате "name x y"
 ** где name - название комнаты
-**        x - x-координата комнаты
-**        y - y-координата комнаты
+**		x - x-координата комнаты
+**		y - y-координата комнаты
 ** всё строго разделено одним пробелом, а в конце идёт перенос строки
 */
 
 void	lines_with_rooms(t_lem_in *lemin, char **line)
 {
 	t_room	*room;
-	char	*to_free;
+	char	*save;
 
 	*line = NULL;
 	lemin->rooms = (t_room *)malloc(sizeof(t_room) * MAX_ROOMS_NUM);
@@ -90,19 +90,18 @@ void	lines_with_rooms(t_lem_in *lemin, char **line)
 	while (get_next_line_2_0(line, lemin) > 0)
 	{
 		skip_comments_and_commands(lemin, line);
-		linked_add(&lemin->contents, *line);
-		to_free = *line;
+		save = *line;
 		get_room(line, room);
 		if (room->name == NULL && (*line == NULL || **line != '-'))
-			end_with_error(to_free, lemin, NULL);
+			end_with_error(save, lemin, NULL);
 		if (**line == '-')
 		{
-			*line = to_free;
+			*line = save;
 			return ;
 		}
+		linked_add(&lemin->contents, save);
 		lemin->number_of_rooms++;
 		room += 1;
-		// free(to_free);
 	}
 	*line = NULL;
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 /*
 **	удаляем связь между комнатами
@@ -25,7 +25,7 @@ void		remove_link(t_room *room, t_room *delete, t_lem_in *lemin)
 short		previous_room_has_fork(t_room *room, t_lem_in *lemin)
 {
 	t_room	*fork;
-	int	i;
+	int		i;
 
 	i = -1;
 	fork = NULL;

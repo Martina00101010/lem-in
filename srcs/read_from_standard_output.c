@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "lem-in.h"
+#include "lem_in.h"
 
 /*
 ** по всему парсеру идёт проверка,
@@ -21,7 +21,7 @@
 
 int		get_next_line_2_0(char **line, t_lem_in *lemin)
 {
-    int		num_bytes;
+	int		num_bytes;
 
 	num_bytes = get_next_line(0, line);
 	if (num_bytes == -1)
@@ -46,24 +46,22 @@ void	execute_command(char **line, t_lem_in *lemin, t_room *room)
 	command = *line;
 	if (command[0] == '#' && command[1] == '#')
 	{
+		linked_add(&lemin->contents, *line);
 		if (ft_strcmp(command, "##start") == 0)
 		{
 			if (lemin->start_room != NULL)
-				end_with_error(command, lemin, NULL);
+				end_with_error(NULL, lemin, NULL);
 			lemin->start_room = room;
 		}
 		if (ft_strcmp(command, "##end") == 0)
 		{
 			if (lemin->end_room != NULL)
-				end_with_error(command, lemin, NULL);
+				end_with_error(NULL, lemin, NULL);
 			lemin->end_room = room;
 			lemin->end_room->bfs_level = MAX_SHORT;
 		}
-		// free(command);
-		linked_add(&lemin->contents, command);
 		if (get_next_line_2_0(line, lemin) == 0)
 			end_with_error(NULL, lemin, NULL);
-		command = *line;
 	}
 }
 
@@ -76,11 +74,10 @@ short	skip_comments(char **line, t_lem_in *lemin)
 	while ((*line)[0] && (*line)[0] == '#' && (*line)[1] != '#')
 	{
 		linked_add(&lemin->contents, *line);
-		// free(*line);
 		if (get_next_line_2_0(line, lemin) == 0)
 			return (0);
 	}
-    return (1);
+	return (1);
 }
 
 /*
@@ -94,14 +91,13 @@ void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 	i = -1;
 	if (skip_comments(line, lemin) == 0)
 		end_with_error(NULL, lemin, NULL);
+	linked_add(&lemin->contents, *line);
 	while ((*line)[0] && ft_isdigit((*line)[++i]))
 	{
 		*number_of_ants = *number_of_ants * 10 + (*line)[i] - '0';
 	}
 	if (*number_of_ants == 0 || (*line)[i] != '\0')
-		end_with_error(*line, lemin, NULL);
-	lemin->contents = linked_new(*line);
-	free(*line);
+		end_with_error(NULL, lemin, NULL);
 }
 
 /*
@@ -133,6 +129,5 @@ void	read_from_standard_output(t_lem_in *lemin)
 	check_duplicate_links(lemin, links);
 	build_graph(lemin, &links);
 	remove_extra_links(lemin, links);
-    remove_dead_ends(lemin->start_room, lemin->end_room, lemin);
-	//
+	remove_dead_ends(lemin->start_room, lemin->end_room, lemin);
 }

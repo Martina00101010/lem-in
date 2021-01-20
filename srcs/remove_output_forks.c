@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 int			get_path_len(t_room *room)
 {
@@ -93,18 +93,6 @@ static void	remove_forks(t_room *room, t_lem_in *lemin)
 	room->exit = (t_room **)ft_memalloc(sizeof(t_room *));
 	room->exit[0] = best;
 	room->exit_count = 1;
-}
-
-void		add_entrances_to_queue(t_queue **q, t_room *room)
-{
-	int	i;
-
-	i = -1;
-	while (++i < room->entrance_count)
-	{
-		if (room->entrance[i]->bfs_level != 1)
-			push_by_priority(q, room->entrance[i]);
-	}
 }
 
 void		remove_output_forks(t_lem_in *lemin)

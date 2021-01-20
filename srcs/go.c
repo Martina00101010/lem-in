@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 short	go(int ants_on_start, int chosen, int *path)
 {
@@ -73,7 +73,7 @@ void	move_on_graph(t_room *end)
 			move_one_ant(room);
 			room = room->entrance[0];
 		}
-	}	
+	}
 }
 
 void	move_ants(t_room *start, t_room *end, int *paths, int *ant_number)

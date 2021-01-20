@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 void		print_ant_move(char *room_name, int ant_number)
 {
@@ -21,9 +21,22 @@ void		print_ant_move(char *room_name, int ant_number)
 	ft_putstr("\x1B[0m ");
 }
 
-void		print_file_contents(char *file)
+void		print_file_contents(t_linked *contents)
 {
+	t_linked	*tmp;
 
+	while (contents->next != NULL)
+		contents = contents->next;
+	while (contents != NULL)
+	{
+		tmp = contents;
+		ft_putstr(contents->data);
+		ft_putchar('\n');
+		contents = contents->prev;
+		free(tmp->data);
+		free(tmp);
+	}
+	ft_putchar('\n');
 }
 
 t_linked	*linked_new(char *str)
@@ -48,4 +61,10 @@ void		linked_add(t_linked **head, char *str)
 		l->next = *head;
 		*head = l;
 	}
+}
+
+void		check_path_to_end_exists(t_lem_in *lemin)
+{
+	if (lemin->start_room->exit == NULL)
+		end_with_error(NULL, lemin, NULL);
 }

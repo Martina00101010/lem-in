@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 short	push_by_priority(t_queue **head, t_room *room)
 {
@@ -62,9 +62,9 @@ short	push(t_queue **queue, t_room *room)
 	return (1);
 }
 
-void 	pop(t_queue **queue)
+void	pop(t_queue **queue)
 {
-	t_queue *next;
+	t_queue	*next;
 
 	if (*queue != NULL)
 	{
@@ -74,7 +74,7 @@ void 	pop(t_queue **queue)
 	}
 }
 
-short   add_exits_to_queue(t_room *room, t_queue **last)
+short	add_exits_to_queue(t_room *room, t_queue **last)
 {
 	short	i;
 
@@ -89,4 +89,16 @@ short   add_exits_to_queue(t_room *room, t_queue **last)
 		}
 	}
 	return (1);
+}
+
+void	add_entrances_to_queue(t_queue **q, t_room *room)
+{
+	int	i;
+
+	i = -1;
+	while (++i < room->entrance_count)
+	{
+		if (room->entrance[i]->bfs_level != 1)
+			push_by_priority(q, room->entrance[i]);
+	}
 }

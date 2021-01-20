@@ -42,7 +42,7 @@ void	check_duplicate_rooms(t_lem_in *lemin, char *line)
 
 	i = lemin->number_of_rooms;
 	room = lemin->rooms;
-	while (--i > -1)
+	while (--i > 0)
 	{
 		j = i;
 		tmp = room + 1;

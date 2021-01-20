@@ -30,10 +30,12 @@ void	end_links(t_link *link)
 	}
 }
 
-void	end_content(t_linked *l)
+void	end_content(t_linked **contents)
 {
 	t_linked	*next;
+	t_linked	*l;
 
+	l = *contents;
 	while (l)
 	{
 		next = l->next;
@@ -41,6 +43,7 @@ void	end_content(t_linked *l)
 		free(l);
 		l = next;
 	}
+	*contents = NULL;
 }
 
 void	end_with_error(char *line, t_lem_in *lemin, t_link *links)
@@ -49,8 +52,6 @@ void	end_with_error(char *line, t_lem_in *lemin, t_link *links)
 		free(line);
 	if (links != NULL)
 		end_links(links);
-	if (lemin->contents != NULL)
-		end_content(lemin->contents);
 	end_lem_in(lemin);
 	print_error();
 }
@@ -60,6 +61,8 @@ void	end_lem_in(t_lem_in *lemin)
 	t_room *room;
 
 	room = lemin->rooms;
+	if (lemin->contents != NULL || lemin->flag)
+		end_content(&lemin->contents);
 	while (--lemin->number_of_rooms > -1)
 	{
 		if (room->name != NULL)

@@ -22,7 +22,7 @@
 
 # define BUFFER_SIZE		(size_t)8
 # define ROOM_NAME_SIZE		(size_t)5
-# define MAX_ROOMS_NUM		(size_t)5000
+# define MAX_ROOMS_NUM		(size_t)10
 # define MAX_SHORT			(short)32767
 # define MAX_INT			(int)2147483647
 # define START_PATH_LEN	0
@@ -87,6 +87,8 @@ typedef struct	s_lem_in
 	t_room		*end_room;
 	short		largest_bfs;
 	t_linked	*contents;
+	int			allocated;
+	char		flag;
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);
@@ -131,7 +133,7 @@ void			move_ants(t_room *start, t_room *end, int *paths,
 void			print_ant_move(char *room_name, int ant_number);
 t_linked		*linked_new(char *str);
 void			linked_add(t_linked **head, char *str);
-void			print_file_contents(t_linked *contents);
+void			print_file_contents(t_linked **contents);
 void			check_path_to_end_exists(t_lem_in *lemin);
 void			add_entrances_to_queue(t_queue **q, t_room *room);
 

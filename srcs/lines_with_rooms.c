@@ -55,6 +55,22 @@ void	get_room(char **line, t_room *room)
 		ft_strdel(&room->name);
 }
 
+void	ft_realloc(t_lem_in *lemin, int new_size)
+{
+	t_room	*realloced;
+
+	realloced = (t_room *)malloc(sizeof(t_room) * new_size);
+	ft_memcpy(realloced, lemin->rooms, sizeof(t_room) *
+									lemin->number_of_rooms);
+	if (lemin->start_room)
+		lemin->start_room = realloced + (lemin->start_room - lemin->rooms);
+	if (lemin->end_room)
+		lemin->end_room = realloced + (lemin->end_room - lemin->rooms);
+	free(lemin->rooms);
+	lemin->rooms = realloced;
+	lemin->allocated = new_size;
+}
+
 /*
 **	пропускаем комментарии и команды
 */
@@ -83,8 +99,7 @@ void	lines_with_rooms(t_lem_in *lemin, char **line)
 	char	*save;
 
 	*line = NULL;
-	lemin->rooms = (t_room *)malloc(sizeof(t_room) * MAX_ROOMS_NUM);
-	ft_bzero(lemin->rooms, sizeof(t_room) * MAX_ROOMS_NUM);
+	lemin->rooms = (t_room *)ft_memalloc(sizeof(t_room) * MAX_ROOMS_NUM);
 	room = lemin->rooms;
 	while (get_next_line_2_0(line, lemin) > 0)
 	{
@@ -100,7 +115,9 @@ void	lines_with_rooms(t_lem_in *lemin, char **line)
 		}
 		linked_add(&lemin->contents, save);
 		lemin->number_of_rooms++;
-		room += 1;
+		if (lemin->number_of_rooms + 1 == lemin->allocated)
+			ft_realloc(lemin, lemin->allocated * 10);
+		room = lemin->rooms + lemin->number_of_rooms;
 	}
 	*line = NULL;
 }

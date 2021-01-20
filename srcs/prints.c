@@ -21,22 +21,25 @@ void		print_ant_move(char *room_name, int ant_number)
 	ft_putstr("\x1B[0m ");
 }
 
-void		print_file_contents(t_linked *contents)
+void		print_file_contents(t_linked **contents)
 {
 	t_linked	*tmp;
+	t_linked	*data;
 
-	while (contents->next != NULL)
-		contents = contents->next;
-	while (contents != NULL)
+	data = *contents;
+	while (data->next != NULL)
+		data = data->next;
+	while (data != NULL)
 	{
-		tmp = contents;
-		ft_putstr(contents->data);
+		tmp = data;
+		ft_putstr(data->data);
 		ft_putchar('\n');
-		contents = contents->prev;
+		data = data->prev;
 		free(tmp->data);
 		free(tmp);
 	}
 	ft_putchar('\n');
+	*contents = NULL;
 }
 
 t_linked	*linked_new(char *str)

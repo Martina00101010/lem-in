@@ -30,9 +30,17 @@
 # define DRAW				2
 # define IMGWIDTH			HEIGHT
 # define IMGHEIGHT			HEIGHT
-# define GREY				0xffffff
+# define GREY				0x505050
+# define GREEN				0x00ff00
 # define FPART(x)			x > 0 ? (x - (int)x) : (x - ((int)x + 1))
 # define RFPART(x)			1.0 - FPART(x)
+
+typedef struct	s_line
+{
+	int	*data;
+	int	steep;
+	int	c;
+}				t_line;
 
 typedef struct	s_linked
 {
@@ -46,6 +54,12 @@ typedef struct	s_point
 	int	x;
 	int	y;
 }				t_point;
+
+typedef struct	s_dpoint
+{
+	double	x;
+	double	y;
+}				t_dpoint;
 
 /*
 ** комната
@@ -155,11 +169,12 @@ void			print_file_contents(t_linked **contents);
 void			check_path_to_end_exists(t_lem_in *lemin);
 void			add_entrances_to_queue(t_queue **q, t_room *room);
 
-void			line(t_point beg, t_point end, int *data);
+void			line(t_point beg, t_point end, int *data, int colour);
 void			draw_full_graph(t_link *link, t_lem_in *lemin);
 void			get_first_image(t_lem_in *lemin);
 void			sdl_open_game(t_sdl *sdl);
 void			sdl_render(t_sdl *sdl);
 void			sdl_loop(t_lem_in *lemin, t_sdl *sdl);
+void			draw_best_paths(t_lem_in *lemin);
 
 #endif

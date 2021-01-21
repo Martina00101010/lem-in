@@ -28,6 +28,8 @@ void	lem_in(char flag)
 	remove_output_forks(&lemin);
 	remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
 	check_path_to_end_exists(&lemin);
+	if (lemin.flag == DRAW)
+		draw_best_paths(&lemin);
 	if (flag == 0)
 		print_file_contents(&(lemin.contents));
 	ready(&lemin);

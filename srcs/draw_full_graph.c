@@ -65,8 +65,37 @@ void	draw_full_graph(t_link *link, t_lem_in *lemin)
 		end = (t_point){
 			(link->two->x - lemin->x_min + 1) * convert_x,
 			(link->two->y - lemin->y_min + 1) * convert_y };
-		line(beg, end, lemin->sdl->pixels);
+		line(beg, end, lemin->sdl->pixels, GREY);
 		link = link->next;
+	}
+}
+
+void	draw_best_paths(t_lem_in *lemin)
+{
+	t_point		p;
+	t_point		beg;
+	t_point		end;
+	t_room		*room;
+	t_dpoint	convert;
+
+	p.x = -1;
+	convert.x = (double)WIDTH / ((double)(lemin->x_max - lemin->x_min + 2));
+	convert.y = (double)HEIGHT / ((double)(lemin->y_max - lemin->y_min + 2));
+	while (++p.x < lemin->end_room->entrance_count)
+	{
+		room = lemin->start_room;
+		while (1)
+		{
+			p.y = room->bfs_level == 1 ? p.x : 0;
+			beg = (t_point){ (room->x - lemin->x_min + 1) * convert.x,
+				(room->y - lemin->y_min + 1) * convert.y };
+			end = (t_point){ (room->exit[p.y]->x - lemin->x_min + 1) * convert.x,
+				(room->exit[p.y]->y - lemin->y_min + 1) * convert.y };
+			line(beg, end, lemin->sdl->pixels, GREEN);
+			room = room->exit[p.y];
+			if (room->exit == NULL)
+				break ;
+		}
 	}
 }
 

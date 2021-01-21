@@ -45,21 +45,21 @@ static double	calc_gradient(t_point *beg, t_point *end, int steep)
 	return (gradient);
 }
 
-static void		draw_line(t_point beg, t_point end, int *data, int steep)
+static void		draw_line(t_point beg, t_point end, t_line *l)
 {
 	int		x;
 	double	y;
 	double	gradient;
 
-	gradient = calc_gradient(&beg, &end, steep);
+	gradient = calc_gradient(&beg, &end, l->steep);
 	x = beg.x - 1;
 	y = beg.y;
-	if (steep)
+	if (l->steep)
 	{
 		while (++x <= end.x && y - 1 >= 0)
 		{
-			data[(int)y + x * IMGWIDTH] = (int)(RFPART(y)) | GREY;
-			data[((int)y - 1) + x * IMGWIDTH] = (int)(FPART(y)) | GREY;
+			l->data[(int)y + x * IMGWIDTH] = l->c;
+			l->data[((int)y - 1) + x * IMGWIDTH] = l->c;
 			y += gradient;
 		}
 	}
@@ -67,17 +67,19 @@ static void		draw_line(t_point beg, t_point end, int *data, int steep)
 	{
 		while (++x <= end.x && y - 1 >= 0)
 		{
-			data[x + (int)y * IMGWIDTH] = (int)(RFPART(y)) | GREY;
-			data[x + ((int)y - 1) * IMGWIDTH] = (int)(FPART(y)) | GREY;
+			l->data[x + (int)y * IMGWIDTH] = l->c;
+			l->data[x + ((int)y - 1) * IMGWIDTH] = l->c;
 			y += gradient;
 		}
 	}
 }
 
-void			line(t_point beg, t_point end, int *data)
+void			line(t_point beg, t_point end, int *data, int colour)
 {
-	int		steep;
+	t_line	l;
 
-	steep = (abs(end.y - beg.y) > abs(end.x - beg.x)) ? 1 : 0;
-	draw_line(beg, end, data, steep);
+	l.steep = (abs(end.y - beg.y) > abs(end.x - beg.x)) ? 1 : 0;
+	l.data = data;
+	l.c = colour;
+	draw_line(beg, end, &l);
 }

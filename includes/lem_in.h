@@ -14,6 +14,7 @@
 # define LEM_IN_H
 
 # include <stdio.h>
+# include "ft_sdl.h"
 # include "libft.h"
 
 /*
@@ -25,7 +26,13 @@
 # define MAX_ROOMS_NUM		(size_t)10
 # define MAX_SHORT			(short)32767
 # define MAX_INT			(int)2147483647
-# define START_PATH_LEN	0
+# define START_PATH_LEN		0
+# define DRAW				2
+# define IMGWIDTH			HEIGHT
+# define IMGHEIGHT			HEIGHT
+# define GREY				0xffffff
+# define FPART(x)			x > 0 ? (x - (int)x) : (x - ((int)x + 1))
+# define RFPART(x)			1.0 - FPART(x)
 
 typedef struct	s_linked
 {
@@ -33,6 +40,12 @@ typedef struct	s_linked
 	struct s_linked	*next;
 	struct s_linked	*prev;
 }				t_linked;
+
+typedef struct	s_point
+{
+	int	x;
+	int	y;
+}				t_point;
 
 /*
 ** комната
@@ -78,6 +91,7 @@ typedef struct	s_queue
 
 typedef struct	s_lem_in
 {
+	t_sdl		*sdl;
 	t_room		*rooms;
 	t_room		*rooms_with_ants;
 	int			ants_at_start;
@@ -88,7 +102,9 @@ typedef struct	s_lem_in
 	short		largest_bfs;
 	t_linked	*contents;
 	int			allocated;
-	char		flag;
+	char		flag;;
+	double		x_max;
+	double		y_max;
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);
@@ -136,5 +152,12 @@ void			linked_add(t_linked **head, char *str);
 void			print_file_contents(t_linked **contents);
 void			check_path_to_end_exists(t_lem_in *lemin);
 void			add_entrances_to_queue(t_queue **q, t_room *room);
+
+void			line(t_point beg, t_point end, int *data);
+void			draw_full_graph(t_link *link, t_lem_in *lemin);
+void			get_first_image(t_lem_in *lemin);
+void			sdl_open_game(t_sdl *sdl);
+void			sdl_render(t_sdl *sdl);
+void			sdl_loop(t_lem_in *lemin, t_sdl *sdl);
 
 #endif

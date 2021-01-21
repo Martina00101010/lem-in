@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [[ "$OSTYPE" == "darwin"* ]]
+	then
+		exit
+fi
+
+NOT_INSTALLED=$(dpkg -s libsdl2-dev | grep Status)
+
+if [ "$NOT_INSTALLED" = "" ]; then
+	echo -e "\e[32minstalling SDL2\e[0m"
+	sudo apt install -y libsdl2-dev
+fi
+
+NOT_INSTALLED=$(dpkg -s libsdl2-image-dev | grep Status)
+
+if [ "$NOT_INSTALLED" = "" ]; then
+	echo -e "\e[32minstalling SDL2\e[0m"
+	sudo apt install -y libsdl2-image-dev
+fi
+
+NOT_INSTALLED=$(dpkg -s libsdl2-mixer-dev | grep Status)
+
+if [ "$NOT_INSTALLED" = "" ]; then
+	echo -e "\e[32minstalling SDL2\e[0m"
+	sudo apt install -y libsdl2-mixer-dev
+fi

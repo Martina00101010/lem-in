@@ -127,6 +127,8 @@ void	read_from_standard_output(t_lem_in *lemin)
 	check_duplicate_rooms(lemin, line);
 	lines_with_links(lemin, line, &links);
 	check_duplicate_links(lemin, links);
+	if (lemin->flag == DRAW)
+		draw_full_graph(links, lemin);
 	build_graph(lemin, &links);
 	remove_extra_links(links);
 	remove_dead_ends(lemin->start_room, lemin->end_room, lemin);

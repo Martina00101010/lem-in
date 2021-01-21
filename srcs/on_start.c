@@ -61,7 +61,16 @@ void	ready(t_lem_in *lemin)
 	paths = get_paths(lemin->start_room);
 	sort_paths(paths, lemin->start_room->exit_count, lemin->start_room->exit);
 	lemin->start_room->ant = lemin->ants_at_start;
-	while (lemin->end_room->ant < lemin->ants_at_start)
-		move_ants(lemin->start_room, lemin->end_room, paths, &ant_number);
+	if (lemin->flag == DRAW)
+	{
+		// render_farm(lemin);
+		// sdl_render(lemin->sdl);
+		sdl_loop(lemin, lemin->sdl);
+	}
+	else
+	{
+		while (lemin->end_room->ant < lemin->ants_at_start)
+			move_ants(lemin->start_room, lemin->end_room, paths, &ant_number);
+	}
 	free(paths);
 }

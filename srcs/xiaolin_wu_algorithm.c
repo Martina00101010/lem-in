@@ -56,7 +56,7 @@ static void		draw_line(t_point beg, t_point end, int *data, int steep)
 	y = beg.y;
 	if (steep)
 	{
-		while (++x <= end.x)
+		while (++x <= end.x && y - 1 >= 0)
 		{
 			data[(int)y + x * IMGWIDTH] = (int)(RFPART(y)) | GREY;
 			data[((int)y - 1) + x * IMGWIDTH] = (int)(FPART(y)) | GREY;
@@ -65,7 +65,7 @@ static void		draw_line(t_point beg, t_point end, int *data, int steep)
 	}
 	else
 	{
-		while (++x <= end.x)
+		while (++x <= end.x && y - 1 >= 0)
 		{
 			data[x + (int)y * IMGWIDTH] = (int)(RFPART(y)) | GREY;
 			data[x + ((int)y - 1) * IMGWIDTH] = (int)(FPART(y)) | GREY;

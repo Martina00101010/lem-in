@@ -18,7 +18,7 @@
 
 char	*start_sdl(t_sdl *sdl)
 {
-	ft_bzero(sdl, sizeof(t_sdl));
+	// ft_bzero(sdl, sizeof(t_sdl));
 	sdl->pitch = WIDTH * 4;
 	sdl->running = 1;
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)

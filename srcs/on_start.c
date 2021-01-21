@@ -63,8 +63,9 @@ void	ready(t_lem_in *lemin)
 	lemin->start_room->ant = lemin->ants_at_start;
 	if (lemin->flag == DRAW)
 	{
-		// render_farm(lemin);
-		// sdl_render(lemin->sdl);
+		if (lemin->flag == DRAW)
+			get_first_image(lemin);
+		sdl_render(lemin->sdl);
 		sdl_loop(lemin, lemin->sdl);
 	}
 	else

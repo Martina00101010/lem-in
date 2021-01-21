@@ -23,8 +23,6 @@ void	lem_in(char flag)
 	lemin.allocated = MAX_ROOMS_NUM;
 	lemin.flag = flag;
 	read_from_standard_output(&lemin);
-	if (lemin.flag == DRAW)
-		get_first_image(&lemin);
 	remove_input_forks(&lemin);
 	remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
 	remove_output_forks(&lemin);

@@ -19,12 +19,18 @@ void	find_coors_range(t_lem_in *lemin)
 
 	i = lemin->number_of_rooms;
 	room = lemin->rooms;
-	while (--i > 0)
+	lemin->x_min = MAX_INT;
+	lemin->y_min = MAX_INT;
+	while (--i > -1)
 	{
 		if ((double)room->x > lemin->x_max)
 			lemin->x_max = (double)room->x;
 		if ((double)room->y > lemin->y_max)
 			lemin->y_max = (double)room->y;
+		if ((double)room->x < lemin->x_min)
+			lemin->x_min = (double)room->x;
+		if ((double)room->y < lemin->y_min)
+			lemin->y_min = (double)room->y;
 		room = lemin->rooms + i;
 	}
 }
@@ -47,26 +53,21 @@ void	draw_full_graph(t_link *link, t_lem_in *lemin)
 	double	convert_y;
 
 	find_coors_range(lemin);
-	convert_x = (double)HEIGHT / ((double)(lemin->x_max + 1));
-	convert_y = (double)HEIGHT / ((double)(lemin->y_max + 1));
-	// lemin->sdl->pixels = get_pixels(DS, lemin, link);
+	convert_x = (double)WIDTH / ((double)(lemin->x_max - lemin->x_min + 2));
+	convert_y = (double)HEIGHT / ((double)(lemin->y_max - lemin->y_min + 2));
+	lemin->sdl = (t_sdl *)ft_memalloc(sizeof(t_sdl));
+	lemin->sdl->pixels = get_pixels(DS, lemin, link);
 	while (link != NULL)
 	{
-		beg = (t_point){ link->one->x * convert_x, link->one->y * convert_y };
-		end = (t_point){ link->two->x * convert_x, link->two->y * convert_y };
+		beg = (t_point){
+			(link->one->x - lemin->x_min + 1) * convert_x,
+			(link->one->y - lemin->y_min + 1) * convert_y };
+		end = (t_point){
+			(link->two->x - lemin->x_min + 1) * convert_x,
+			(link->two->y - lemin->y_min + 1) * convert_y };
 		line(beg, end, lemin->sdl->pixels);
 		link = link->next;
 	}
-	
-	int	i = -1;
-	while (++i < HEIGHT)
-		lemin->sdl->pixels[i] = 0xffffff;
-	// while (++i < DS)
-	// {
-	// 	if ((i + 1) % WIDTH == 0)
-	// 		printf("\n");
-	// 	printf("%i", lemin->sdl->pixels[i] == 0 ? 0 : 1);
-	// }
 }
 
 void	get_first_image(t_lem_in *lemin)

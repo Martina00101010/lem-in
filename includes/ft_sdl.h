@@ -29,7 +29,7 @@
 # define NO_FLAGS			0
 # define RENDERING_DRIVER	0
 # define SILENT_EXIT		NULL
-# define WIDTH				700
+# define WIDTH				600
 # define HEIGHT				600
 # define DS					WIDTH * HEIGHT
 
@@ -39,7 +39,7 @@ typedef struct	s_sdl
 	SDL_Renderer		*ren;
 	SDL_Texture			*tex;
 	int					pitch;
-	int					pixels[DS];
+	int					*pixels;
 	char				running;
 }				t_sdl;
 

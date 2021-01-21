@@ -104,7 +104,9 @@ typedef struct	s_lem_in
 	int			allocated;
 	char		flag;;
 	double		x_max;
+	double		x_min;
 	double		y_max;
+	double		y_min;
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);

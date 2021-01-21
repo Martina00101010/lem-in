@@ -51,7 +51,7 @@ DEBUG = -g -ggdb3
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+#FLAGS = -Wall -Wextra -Werror
 
 FRAME_SDL = -L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -lSDL2 -lSDL2_image
 
@@ -66,14 +66,14 @@ INC_SDL = -I /usr/local/include/SDL2 -I include_framework -I /usr/include/SDL2
 endif
 
 
-all: INSTALL_SDL $(PROJECT_BINARY)
+all: $(PROJECT_BINARY)
 
 $(PROJECT_BINARY): $(OBJ)
 	@make -s -C libft
-	@$(CC) $(FLAGS) -o $(PROJECT_BINARY) $(SRC) $(INCLUDES) $(LIBRARIES) $(INC_SDL) $(FRAME_SDL)
+	@$(CC) $(FLAGS) $(DEBUG) -o $(PROJECT_BINARY) $(SRC) $(INCLUDES) $(LIBRARIES) $(INC_SDL) $(FRAME_SDL)
 	@echo "recompiled project binary"
 
-$(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS) $(OBJ_DIR)
+$(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
 	@$(CC) $(FLAGS) $(INCLUDES) $(INC_SDL) -c $< -o $@
 
 $(OBJ_DIR):

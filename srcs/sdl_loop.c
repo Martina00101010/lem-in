@@ -12,26 +12,18 @@
 
 #include "lem_in.h"
 
-// void		sdl_hook(t_wolf *wolf, t_sdl *sdl, SDL_Scancode scode)
-// {
-// 	if (scode == SDL_SCANCODE_3)
-// 		change_textures_pack(wolf, sdl);
-// 	if (scode == SDL_SCANCODE_1)
-// 		sdl_play_audio(sdl);
-// 	if (scode == SDL_SCANCODE_2)
-// 		sdl_stop_audio(sdl);
-// 	if (scode == SDL_SCANCODE_S)
-// 	{
-// 		sdl_play_effect(sdl);
-// 		change_level(wolf);
-// 	}
-// }
+void		sdl_hook(t_lem_in *lemin, t_sdl *sdl, SDL_Scancode scode)
+{
+	if (scode == SDL_SCANCODE_S)
+		sdl->pause ^= 1;
+	if (scode == SDL_SCANCODE_D)
+		sdl->debug ^= 1;
+}
 
-void		sdl_loop(t_lem_in *lemin, t_sdl *sdl)
+void		sdl_loop(t_lem_in *lemin, t_sdl *sdl, int *paths, int *ant_number)
 {
 	SDL_Event	e;
 
-	(void)lemin;
 	while (sdl->running)
 	{
 		if (SDL_PollEvent(&e))
@@ -43,8 +35,13 @@ void		sdl_loop(t_lem_in *lemin, t_sdl *sdl)
 				sdl->running = 0;
 				break ;
 			}
-			// if (e.type == SDL_KEYDOWN)
-			// 	sdl_hook(lemin, sdl, e.key.keysym.scancode);
+			if (e.type = SDL_KEYDOWN)
+				sdl_hook(lemin, sdl, e.key.keysym.scancode);
+		}
+		if (lemin->end_room->ant < lemin->ants_at_start && !sdl->pause)
+		{
+			sdl->pause = sdl->debug ? 1 : 0;
+			move_ants(lemin, paths, ant_number);
 		}
 	}
 }

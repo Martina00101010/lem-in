@@ -53,8 +53,10 @@ void	draw_full_graph(t_link *link, t_lem_in *lemin)
 	double	convert_y;
 
 	find_coors_range(lemin);
-	convert_x = (double)WIDTH / ((double)(lemin->x_max - lemin->x_min + 2));
-	convert_y = (double)HEIGHT / ((double)(lemin->y_max - lemin->y_min + 2));
+	lemin->conv.x = (double)WIDTH / ((double)(lemin->x_max - lemin->x_min + 2));
+	lemin->conv.y = (double)HEIGHT / ((double)(lemin->y_max - lemin->y_min + 2));
+	convert_x = lemin->conv.x;
+	convert_y = lemin->conv.y;
 	lemin->sdl = (t_sdl *)ft_memalloc(sizeof(t_sdl));
 	lemin->sdl->pixels = get_pixels(DS, lemin, link);
 	while (link != NULL)
@@ -79,8 +81,8 @@ void	draw_best_paths(t_lem_in *lemin)
 	t_dpoint	convert;
 
 	p.x = -1;
-	convert.x = (double)WIDTH / ((double)(lemin->x_max - lemin->x_min + 2));
-	convert.y = (double)HEIGHT / ((double)(lemin->y_max - lemin->y_min + 2));
+	convert.x = lemin->conv.x;
+	convert.y = lemin->conv.y;
 	while (++p.x < lemin->end_room->entrance_count)
 	{
 		room = lemin->start_room;
@@ -115,4 +117,5 @@ void	get_first_image(t_lem_in *lemin)
 		end_with_error(NULL, lemin, NULL);
 	}
 	lemin->sdl->running = 1;
+	sdl_render_paths(lemin->sdl);
 }

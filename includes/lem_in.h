@@ -34,6 +34,14 @@
 # define GREEN				0x00ff00
 # define FPART(x)			x > 0 ? (x - (int)x) : (x - ((int)x + 1))
 # define RFPART(x)			1.0 - FPART(x)
+# define FONT_FILE			"fonts/FreeMono.ttf"
+# define FONT_SIZE			20
+# define WHI_				(SDL_Color){ 0xff, 0xff, 0xff, 0xff }
+# define BLACK_				(SDL_Color){ 0x00, 0x00, 0x00, 0x00 }
+# define GREEN_				(SDL_Color){ 0x00, 0xff, 0x00, 0x00 }
+# define MAG_				(SDL_Color){ 0xff, 0x00, 0xff, 0x00 }
+# define RED_				(SDL_Color){ 0xff, 0x00, 0x00, 0x00 }
+# define FONT_SHIFT			10
 
 typedef struct	s_line
 {
@@ -121,6 +129,8 @@ typedef struct	s_lem_in
 	double		x_min;
 	double		y_max;
 	double		y_min;
+	char		move;
+	t_dpoint	conv;
 }				t_lem_in;
 
 void			read_from_standard_output(t_lem_in *lemin);
@@ -160,8 +170,7 @@ short			remove_dead_ends(t_room *room, t_room *end, t_lem_in *lemin);
 void			remove_output_forks(t_lem_in *lemin);
 int				get_path_len(t_room *room);
 void			ready(t_lem_in *lemin);
-void			move_ants(t_room *start, t_room *end, int *paths,
-									int *ant_number);
+void			move_ants(t_lem_in *lemin, int *paths, int *ant_number);
 void			print_ant_move(char *room_name, int ant_number);
 t_linked		*linked_new(char *str);
 void			linked_add(t_linked **head, char *str);
@@ -173,8 +182,13 @@ void			line(t_point beg, t_point end, int *data, int colour);
 void			draw_full_graph(t_link *link, t_lem_in *lemin);
 void			get_first_image(t_lem_in *lemin);
 void			sdl_open_game(t_sdl *sdl);
-void			sdl_render(t_sdl *sdl);
-void			sdl_loop(t_lem_in *lemin, t_sdl *sdl);
+void			sdl_render_paths(t_sdl *sdl);
+void			sdl_render_text(t_sdl *sdl, t_room *room, char highlight);
+void			sdl_loop(t_lem_in *lemin, t_sdl *sdl, int *paths,
+													int *ant_number);
 void			draw_best_paths(t_lem_in *lemin);
+void			draw_start_end(t_lem_in *lemin, t_sdl *sdl);
+void			draw_ant_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
+void			draw_ant_start_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 
 #endif

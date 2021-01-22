@@ -63,15 +63,14 @@ void	ready(t_lem_in *lemin)
 	lemin->start_room->ant = lemin->ants_at_start;
 	if (lemin->flag == DRAW)
 	{
-		if (lemin->flag == DRAW)
-			get_first_image(lemin);
-		sdl_render(lemin->sdl);
-		sdl_loop(lemin, lemin->sdl);
+		get_first_image(lemin);
+		draw_start_end(lemin, lemin->sdl);
+		sdl_loop(lemin, lemin->sdl, paths, &ant_number);
 	}
 	else
 	{
 		while (lemin->end_room->ant < lemin->ants_at_start)
-			move_ants(lemin->start_room, lemin->end_room, paths, &ant_number);
+			move_ants(lemin, paths, &ant_number);
 	}
 	free(paths);
 }

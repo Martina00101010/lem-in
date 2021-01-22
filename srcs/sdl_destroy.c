@@ -14,14 +14,20 @@
 
 void	sdl_destroy(t_sdl *sdl)
 {
+	if (sdl == NULL)
+		return ;
+	if (sdl->pixels != NULL)
+		free(sdl->pixels);
 	if (sdl->tex != NULL)
 		SDL_DestroyTexture(sdl->tex);
 	if (sdl->ren != NULL)
 		SDL_DestroyRenderer(sdl->ren);
 	if (sdl->win != NULL)
 		SDL_DestroyWindow(sdl->win);
-//	IMG_Quit();
+	TTF_CloseFont(sdl->font);
+	TTF_Quit();
 	SDL_Quit();
+	free(sdl);
 	ft_bzero(sdl, sizeof(t_sdl));
 }
 

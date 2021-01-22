@@ -73,6 +73,7 @@ void	end_lem_in(t_lem_in *lemin)
 			free(room->exit);
 		room += 1;
 	}
+	sdl_destroy(lemin->sdl);
 	free(lemin->rooms);
 	ft_bzero(lemin, sizeof(lemin));
 }

@@ -19,11 +19,13 @@
 
 # if defined __APPLE__
 #  include "SDL.h"
+#  include "SDL_ttf.h"
+#  include "SDL_image.h"
 # elif __linux__
 #  include <SDL2/SDL.h>
+#  include <SDL2/SDL_ttf.h>
+#  include <SDL2/SDL_image.h>
 # endif
-
-# include <SDL2/SDL_image.h>
 
 # define TITLE				"Lem-in"
 # define NO_FLAGS			0
@@ -38,9 +40,13 @@ typedef struct	s_sdl
 	SDL_Window			*win;
 	SDL_Renderer		*ren;
 	SDL_Texture			*tex;
+	TTF_Font			*font;
+	SDL_Rect			rect;
 	int					pitch;
 	int					*pixels;
 	char				running;
+	char				pause;
+	char				debug;
 }				t_sdl;
 
 char			*start_sdl(t_sdl *sdl);

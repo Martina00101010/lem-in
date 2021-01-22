@@ -37,6 +37,7 @@ SRC_FILES = main.c \
 			sdl_destroy.c \
 			sdl_loop.c \
 			sdl_render.c \
+			sdl_draw_move.c \
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
@@ -53,11 +54,12 @@ CC = gcc
 
 #FLAGS = -Wall -Wextra -Werror
 
-FRAME_SDL = -L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -lSDL2 -lSDL2_image
+FRAME_SDL = -L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -lSDL2 -lSDL2_image -lSDL2_ttf
 
 ifeq ($(OS), Darwin)
 INC_SDL = -I frameworks/SDL2.framework/Headers \
 			-I frameworks/SDL2_image.framework/Headers \
+			-I frameworks/SDL2_ttf.framework/Headers \
 			-I include_framework 
 # FRAME_SDL = -F frameworks -framework SDL2 -rpath frameworks -framework SDL2_image 
 endif

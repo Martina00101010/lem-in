@@ -18,11 +18,23 @@
 
 char	*start_sdl(t_sdl *sdl)
 {
-	// ft_bzero(sdl, sizeof(t_sdl));
 	sdl->pitch = WIDTH * 4;
 	sdl->running = 1;
+	sdl->pause = 1;
+	sdl->debug = 1;
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 		return ((char *)SDL_GetError());
+	return (NULL);
+}
+
+char	*init_font(t_sdl *sdl)
+{
+	if (TTF_Init() == -1)
+		return ((char *)TTF_GetError());
+	sdl->font = TTF_OpenFont(FONT_FILE, FONT_SIZE);
+	if (sdl->font == NULL)
+		return ((char *)TTF_GetError());
+	sdl->rect = (SDL_Rect){ 0, 0, 0, 0 };
 	return (NULL);
 }
 
@@ -47,5 +59,5 @@ char	*open_window(t_sdl *sdl)
 										WIDTH,
 										HEIGHT)))
 		return ((char *)SDL_GetError());
-	return (NULL);
+	return (init_font(sdl));
 }

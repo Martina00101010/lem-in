@@ -19,7 +19,8 @@ void	lem_in(char flag)
 
 	ft_bzero(&lemin, sizeof(t_lem_in));
 	ft_bzero(&sdl, sizeof(t_sdl));
-	lemin.sdl = &sdl;
+	if (flag == DRAW)
+		lemin.sdl = &sdl;
 	lemin.allocated = MAX_ROOMS_NUM;
 	lemin.flag = flag;
 	read_from_standard_output(&lemin);

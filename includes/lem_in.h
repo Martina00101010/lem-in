@@ -190,5 +190,7 @@ void			draw_best_paths(t_lem_in *lemin);
 void			draw_start_end(t_lem_in *lemin, t_sdl *sdl);
 void			draw_ant_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 void			draw_ant_start_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
+int				sdl_listen(t_lem_in *lemin, t_sdl *sdl);
+void			sdl_end_lem_in(t_lem_in *lemin, t_sdl *sdl);
 
 #endif

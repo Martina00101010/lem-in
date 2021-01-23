@@ -20,24 +20,37 @@ void		sdl_hook(t_lem_in *lemin, t_sdl *sdl, SDL_Scancode scode)
 		sdl->debug ^= 1;
 }
 
-void		sdl_loop(t_lem_in *lemin, t_sdl *sdl, int *paths, int *ant_number)
+void		sdl_end_lem_in(t_lem_in *lemin, t_sdl *sdl)
+{
+	end_lem_in(lemin);
+	exit(0);
+}
+
+int			sdl_listen(t_lem_in *lemin, t_sdl *sdl)
 {
 	SDL_Event	e;
 
+	if (SDL_PollEvent(&e))
+	{
+		if (e.key.keysym.scancode == SDL_SCANCODE_ESCAPE ||
+			(e.type == SDL_WINDOWEVENT &&
+				e.window.event == SDL_WINDOWEVENT_CLOSE))
+		{
+			sdl->running = 0;
+			return (0);
+		}
+		if (e.type = SDL_KEYDOWN)
+			sdl_hook(lemin, sdl, e.key.keysym.scancode);
+	}
+	return (1);
+}
+
+void		sdl_loop(t_lem_in *lemin, t_sdl *sdl, int *paths, int *ant_number)
+{
 	while (sdl->running)
 	{
-		if (SDL_PollEvent(&e))
-		{
-			if (e.key.keysym.scancode == SDL_SCANCODE_ESCAPE ||
-				(e.type == SDL_WINDOWEVENT &&
-					e.window.event == SDL_WINDOWEVENT_CLOSE))
-			{
-				sdl->running = 0;
-				break ;
-			}
-			if (e.type = SDL_KEYDOWN)
-				sdl_hook(lemin, sdl, e.key.keysym.scancode);
-		}
+		if (!sdl_listen(lemin, sdl))
+			break ;
 		if (lemin->end_room->ant < lemin->ants_at_start && !sdl->pause)
 		{
 			sdl->pause = sdl->debug ? 1 : 0;

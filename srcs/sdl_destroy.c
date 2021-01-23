@@ -30,4 +30,3 @@ void	sdl_destroy(t_sdl *sdl)
 	free(sdl);
 	ft_bzero(sdl, sizeof(t_sdl));
 }
-

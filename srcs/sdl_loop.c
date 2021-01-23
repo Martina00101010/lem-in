@@ -15,9 +15,13 @@
 void		sdl_hook(t_lem_in *lemin, t_sdl *sdl, SDL_Scancode scode)
 {
 	if (scode == SDL_SCANCODE_S)
-		sdl->pause ^= 1;
+		sdl->pause = 1;
+	if (scode == SDL_SCANCODE_G)
+		sdl->pause = 0;
 	if (scode == SDL_SCANCODE_D)
-		sdl->debug ^= 1;
+		sdl->debug = 1;
+	if (scode == SDL_SCANCODE_F)
+		sdl->debug = 0;
 }
 
 void		sdl_end_lem_in(t_lem_in *lemin, t_sdl *sdl)

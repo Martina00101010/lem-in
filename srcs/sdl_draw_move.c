@@ -12,10 +12,10 @@
 
 #include "lem_in.h"
 
-void		sdl_set_rect(t_room *room, t_lem_in *lemin, t_sdl *sdl)
+void	sdl_set_rect(t_room *room, t_lem_in *lemin, t_sdl *sdl)
 {
-	sdl->rect.x = (room->x - lemin->x_min + 1) * lemin->conv.x - FONT_SHIFT;
-	sdl->rect.y = (room->y - lemin->y_min + 1) * lemin->conv.y - FONT_SHIFT;
+	sdl->rect.x = (room->x - lemin->min.x + 1) * lemin->conv.x - FONT_SHIFT;
+	sdl->rect.y = (room->y - lemin->min.y + 1) * lemin->conv.y - FONT_SHIFT;
 	if (sdl->rect.x < 0)
 		sdl->rect.x = 0;
 	if (sdl->rect.y < 0)
@@ -24,17 +24,16 @@ void		sdl_set_rect(t_room *room, t_lem_in *lemin, t_sdl *sdl)
 	sdl->rect.h = FONT_SIZE;
 }
 
-void		highligh_rooms(t_room *room, t_room *n, t_lem_in *lemin, t_sdl *sdl)
+void	highligh_rooms(t_room *room, t_room *n, t_lem_in *lemin, t_sdl *sdl)
 {
 	if (!sdl_listen(lemin, sdl))
 		sdl_end_lem_in(lemin, sdl);
 	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
-		lemin->sdl->pitch);	
+		lemin->sdl->pitch);
 	sdl_set_rect(room, lemin, sdl);
 	sdl_render_text(sdl, room, 1);
 	SDL_RenderPresent(lemin->sdl->ren);
-	if (sdl->debug)
-		SDL_Delay(1000);
+	SDL_Delay(sdl->debug ? 1000 : 50);
 	if (!sdl_listen(lemin, sdl))
 		sdl_end_lem_in(lemin, sdl);
 	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
@@ -42,61 +41,53 @@ void		highligh_rooms(t_room *room, t_room *n, t_lem_in *lemin, t_sdl *sdl)
 	sdl_set_rect(n, lemin, sdl);
 	sdl_render_text(sdl, n, 1);
 	SDL_RenderPresent(lemin->sdl->ren);
-	if (sdl->debug)
-		SDL_Delay(1000);
+	SDL_Delay(sdl->debug ? 1000 : 50);
 }
 
-void		draw_ant_start_move(t_room *room, t_lem_in *lemin, t_sdl *sdl)
-{
-	highligh_rooms(room->entrance[0], room, lemin, sdl);
-	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
-		lemin->sdl->pitch);
-	sdl_set_rect(room, lemin, sdl);
-	sdl_render_text(sdl, room, 0);
-	sdl_set_rect(room->entrance[0], lemin, sdl);
-	sdl_render_text(sdl, room->entrance[0], 0);
-	SDL_RenderPresent(lemin->sdl->ren);
-	if (sdl->debug)
-		SDL_Delay(1000);
-}
-
-void		draw_ant_move(t_room *room, t_lem_in *lemin, t_sdl *sdl)
+void	unhighligh_rooms(t_room *room, t_room *n, t_lem_in *lemin, t_sdl *sdl)
 {
 	if (!sdl_listen(lemin, sdl))
 		sdl_end_lem_in(lemin, sdl);
-	highligh_rooms(room, room->exit[0], lemin, sdl);
 	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
 		lemin->sdl->pitch);
 	sdl_set_rect(room, lemin, sdl);
 	sdl_render_text(sdl, room, 0);
-	sdl_set_rect(room->exit[0], lemin, sdl);
-	sdl_render_text(sdl, room->exit[0], 0);
 	SDL_RenderPresent(lemin->sdl->ren);
-	if (sdl->debug)
-		SDL_Delay(1000);
+	SDL_Delay(sdl->debug ? 1000 : 50);
+	if (!sdl_listen(lemin, sdl))
+		sdl_end_lem_in(lemin, sdl);
+	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
+		lemin->sdl->pitch);
+	sdl_set_rect(n, lemin, sdl);
+	sdl_render_text(sdl, n, 0);
+	SDL_RenderPresent(lemin->sdl->ren);
+	SDL_Delay(sdl->debug ? 1000 : 50);
 }
 
-void		draw_start_end(t_lem_in *lemin, t_sdl *sdl)
+void	draw_ant_start_move(t_room *room, t_lem_in *lemin, t_sdl *sdl)
 {
-	t_room		*room;
-	int			i;
-	t_dpoint	convert;
+	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
+		lemin->sdl->pitch);
+	sdl_set_rect(room, lemin, sdl);
+	sdl_render_text(sdl, room, 1);
+	sdl_set_rect(room->entrance[0], lemin, sdl);
+	sdl_render_text(sdl, room->entrance[0], 1);
+	SDL_RenderPresent(lemin->sdl->ren);
+	SDL_Delay(sdl->debug ? 1000 : 50);
+	unhighligh_rooms(room->entrance[0], room, lemin, sdl);
+}
 
-	i = -1;
-	SDL_UpdateTexture(sdl->tex, NULL, sdl->pixels, sdl->pitch);
-	sdl_set_rect(lemin->start_room, lemin, sdl);
-	sdl_render_text(sdl, lemin->start_room, 0);
-	while (++i < lemin->start_room->exit_count)
-	{
-		room = lemin->start_room->exit[i];
-		while (room->bfs_level != MAX_SHORT)
-		{
-			sdl_set_rect(room, lemin, sdl);
-			sdl_render_text(sdl, room, 0);
-			room = room->exit[0];
-		}
-	}
-	sdl_set_rect(lemin->end_room, lemin, sdl);
-	sdl_render_text(sdl, lemin->end_room, 0);
-	SDL_RenderPresent(sdl->ren);
+void	draw_ant_move(t_room *room, t_lem_in *lemin, t_sdl *sdl)
+{
+	if (!sdl_listen(lemin, sdl))
+		sdl_end_lem_in(lemin, sdl);
+	SDL_UpdateTexture(lemin->sdl->tex, NULL, lemin->sdl->pixels,
+		lemin->sdl->pitch);
+	sdl_set_rect(room, lemin, sdl);
+	sdl_render_text(sdl, room, 1);
+	sdl_set_rect(room->exit[0], lemin, sdl);
+	sdl_render_text(sdl, room->exit[0], 1);
+	SDL_RenderPresent(lemin->sdl->ren);
+	SDL_Delay(sdl->debug ? 1000 : 50);
+	unhighligh_rooms(room, room->exit[0], lemin, sdl);
 }

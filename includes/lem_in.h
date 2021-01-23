@@ -32,15 +32,13 @@
 # define IMGHEIGHT			HEIGHT
 # define GREY				0x505050
 # define GREEN				0x00ff00
-# define FPART(x)			x > 0 ? (x - (int)x) : (x - ((int)x + 1))
-# define RFPART(x)			1.0 - FPART(x)
 # define FONT_FILE			"fonts/FreeMono.ttf"
 # define FONT_SIZE			20
 # define WHI_				(SDL_Color){ 0xff, 0xff, 0xff, 0xff }
 # define BLACK_				(SDL_Color){ 0x00, 0x00, 0x00, 0x00 }
 # define GREEN_				(SDL_Color){ 0x00, 0xff, 0x00, 0x00 }
 # define MAG_				(SDL_Color){ 0xff, 0x00, 0xff, 0x00 }
-# define RED_				(SDL_Color){ 0xff, 0x00, 0x00, 0x00 }
+# define BLUE_				(SDL_Color){ 0x00, 0x00, 0xff, 0x00 }
 # define FONT_SHIFT			10
 
 typedef struct	s_line
@@ -116,19 +114,17 @@ typedef struct	s_lem_in
 	t_sdl		*sdl;
 	t_room		*rooms;
 	t_room		*rooms_with_ants;
-	int			ants_at_start;
-	int			ants_at_finish;
-	short		number_of_rooms;
 	t_room		*start_room;
 	t_room		*end_room;
-	short		largest_bfs;
 	t_linked	*contents;
+	t_dpoint	max;
+	t_dpoint	min;
+	int			ants_at_start;
+	int			ants_at_finish;
 	int			allocated;
-	char		flag;;
-	double		x_max;
-	double		x_min;
-	double		y_max;
-	double		y_min;
+	short		number_of_rooms;
+	short		largest_bfs;
+	char		flag;
 	char		move;
 	t_dpoint	conv;
 }				t_lem_in;
@@ -192,5 +188,8 @@ void			draw_ant_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 void			draw_ant_start_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 int				sdl_listen(t_lem_in *lemin, t_sdl *sdl);
 void			sdl_end_lem_in(t_lem_in *lemin, t_sdl *sdl);
+void			highligh_rooms(t_room *room, t_room *n, t_lem_in *lemin,
+								t_sdl *sdl);
+void			sdl_set_rect(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 
 #endif

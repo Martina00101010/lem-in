@@ -35,6 +35,8 @@ void	move_on_start(t_room *start, int *paths, int *ant_number,
 		if ((start->exit[i]->ant == 0 || start->exit[0]->bfs_level == MAX_SHORT)
 			&& go(start->ant, i, paths))
 		{
+			if (lemin->sdl != NULL)
+				highligh_rooms(start, start->exit[i], lemin, lemin->sdl);
 			start->exit[i]->ant = ++(*ant_number);
 			if (lemin->sdl == NULL)
 				print_ant_move(start->exit[i]->name, *ant_number);
@@ -51,6 +53,8 @@ void	move_one_ant(t_room *room, t_sdl *sdl, t_lem_in *lemin)
 	{
 		if (room->exit[0]->bfs_level == MAX_SHORT)
 		{
+			if (sdl != NULL)
+				highligh_rooms(room, room->exit[0], lemin, sdl);
 			room->exit[0]->ant++;
 			if (sdl == NULL)
 				print_ant_move(room->exit[0]->name, room->ant);
@@ -60,6 +64,8 @@ void	move_one_ant(t_room *room, t_sdl *sdl, t_lem_in *lemin)
 		}
 		else if (room->exit[0]->ant == 0)
 		{
+			if (sdl != NULL)
+				highligh_rooms(room, room->exit[0], lemin, sdl);
 			room->exit[0]->ant = room->ant;
 			if (sdl == NULL)
 				print_ant_move(room->exit[0]->name, room->ant);

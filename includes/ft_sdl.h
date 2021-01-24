@@ -6,7 +6,7 @@
 /*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 14:55:59 by pberge            #+#    #+#             */
-/*   Updated: 2020/11/23 02:13:55 by pberge           ###   ########.fr       */
+/*   Updated: 2021/01/24 13:44:18 by pberge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define NO_FLAGS			0
 # define RENDERING_DRIVER	0
 # define SILENT_EXIT		NULL
-# define WIDTH				600
-# define HEIGHT				600
+# define WIDTH				1000
+# define HEIGHT				1000
 # define DS					WIDTH * HEIGHT
 
 typedef struct	s_sdl

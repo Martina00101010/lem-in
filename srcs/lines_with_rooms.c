@@ -47,11 +47,11 @@ void	get_room(char **line, t_room *room)
 		return ;
 	(*line)++;
 	room->x = get_room_coordinate(line);
-	if (**line != ' ' || room->x <= 0)
+	if (**line != ' ' || room->x < 0)
 		ft_strdel(&room->name);
 	(*line)++;
 	room->y = get_room_coordinate(line);
-	if (**line != '\0' || room->y <= 0)
+	if (**line != '\0' || room->y < 0)
 		ft_strdel(&room->name);
 }
 

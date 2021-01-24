@@ -33,7 +33,7 @@
 # define GREY				0x505050
 # define GREEN				0x00ff00
 # define FONT_FILE			"fonts/FreeMono.ttf"
-# define FONT_SIZE			20
+# define FONT_SIZE			21
 # define WHI_				(SDL_Color){ 0xff, 0xff, 0xff, 0xff }
 # define BLACK_				(SDL_Color){ 0x00, 0x00, 0x00, 0x00 }
 # define GREEN_				(SDL_Color){ 0x00, 0xff, 0x00, 0x00 }

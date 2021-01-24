@@ -31,7 +31,7 @@ void	sdl_render_text(t_sdl *sdl, t_room *room, char highlight)
 	else
 		c = highlight ? MAG_ : GREEN_;
 	num = room->ant == 0 ? ft_strdup(" ") : ft_itoa(room->ant);
-	sur = TTF_RenderText_Shaded(sdl->font, num, BLACK_, c);
+	sur = TTF_RenderText(sdl->font, num, BLACK_, c);
 	tex = SDL_CreateTextureFromSurface(sdl->ren, sur);
 	SDL_RenderCopy(sdl->ren, tex, NULL, &(sdl->rect));
 	SDL_FreeSurface(sur);

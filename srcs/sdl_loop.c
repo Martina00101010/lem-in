@@ -43,7 +43,7 @@ int			sdl_listen(t_lem_in *lemin, t_sdl *sdl)
 			sdl->running = 0;
 			return (0);
 		}
-		if (e.type = SDL_KEYDOWN)
+		if (e.type == SDL_KEYDOWN)
 			sdl_hook(lemin, sdl, e.key.keysym.scancode);
 	}
 	return (1);

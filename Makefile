@@ -10,8 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-ROJECT_BINARY = lem-in
+NAME = lem-in
 TESTS_BINARY = lemin_unit_tests
+
+WFLAGS = -Wall -Wextra -Werror
+
+SRC_DIR = srcs
 
 SRCS = main.c \
 			read_from_standard_output.c \
@@ -50,13 +54,13 @@ INCLUDES = -I includes -I libft/includes -I /usr/include/SDL2
 
 HDR = includes/lem_in.h includes/ft_sdl.h libft/includes/libft.h 
 
-ifeq ($(OS), Darwin)
 INC_SDL = -I frameworks/SDL2.framework/Headers \
 			-I frameworks/SDL2_image.framework/Headers \
+			-I frameworks/SDL2_ttf.framework/Headers \
 			-I include_framework
 FRAME_SDL = -F frameworks -framework SDL2 -rpath frameworks \
-			-framework SDL2_image
-endif
+			-framework SDL2_image -framework SDL2_ttf
+
 ifeq ($(OS), Linux)
 INC_SDL = -I/usr/local/include/SDL2 -D_REENTRANT
 FRAME_SDL = -lSDL2 -L framewords/SDL2.framework/SDL2 -lm -lSDL2_image\
@@ -68,16 +72,11 @@ all: INSTALL_SDL $(NAME)
 $(NAME): $(OBJ)
 	@echo "Compiling project..."
 	@make -s -C libft
-	@$(CC) $(FLAGS) $(DEBUG) -o $(PROJECT_BINARY) $(SRC) $(INCLUDES) $(LIBRARIES) $(INC_SDL) $(FRAME_SDL)
-	@#gcc $(WFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBFT) $(INC_SDL) $(FRAME_SDL)
-	@echo "$(RED)wolf3d is ready.$(RESET)"
-	@echo "$(GREEN)*************************************************************"
-	@echo "*** Run the project: ./wolf3d [-l] maps/level_1 ***"
-	@echo "*************************************************************$(RESET)"
+	@gcc $(WFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBFT) $(INC_SDL) $(FRAME_SDL)
 
 $(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HDR)
 	@mkdir -p $(OBJ_DIR)
-	@gcc $(WFLAGS) $(INCLUDES) $(INC_SDL) -c $< -o $@
+	@gcc $(INCLUDES) $(INC_SDL) -c $< -o $@
 
 INSTALL_SDL:
 	@./pkg_sdl

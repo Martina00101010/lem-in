@@ -16,11 +16,14 @@ void	check_start_end_exists(t_lem_in *lemin, char *line)
 {
 	if (lemin->number_of_rooms < 2 ||
 		lemin->start_room == NULL ||
-		lemin->start_room->name == NULL ||
-		lemin->end_room->name == NULL ||
 		lemin->end_room == NULL ||
 		line == NULL)
 		end_with_error(line, lemin, NULL);
+	if (lemin->start_room != NULL && lemin->start_room->name == NULL)
+		end_with_error(line, lemin, NULL);
+	if (lemin->end_room != NULL && lemin->end_room->name == NULL)
+		end_with_error(line, lemin, NULL);
+
 }
 
 void	check_links_total_number(t_lem_in *lemin, t_link *link)

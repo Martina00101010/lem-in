@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: koparker <marvin@42.fr>                     +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 11:21:20 by pberge            #+#    #+#             */
-/*   Updated: 2020/12/20 11:21:37 by pberge           ###   ########.fr       */
+/*   Updated: 2021/01/26 17:00:23 by koparker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	check_links_total_number(t_lem_in *lemin, t_link *link)
 }
 
 /*
-**  Название комнаты и набор координат (x,y) уникальны для каждой комнаты,
-**	поэтому любой дубликат - это ошибка
+**  Room name and coordinates set (x,y) are unique for each room,
+**	therefore any duplicates considered to be errors.
 */
 
 void	check_duplicate_rooms(t_lem_in *lemin, char *line)

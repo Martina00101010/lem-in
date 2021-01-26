@@ -19,7 +19,7 @@ void	lem_in(char flag)
 	ft_bzero(&lemin, sizeof(t_lem_in));
 	lemin.allocated = MAX_ROOMS_NUM;
 	lemin.flag = flag;
-	read_from_standard_output(&lemin);
+	read_from_stdout(&lemin);
 	remove_input_forks(&lemin);
 	remove_dead_ends(lemin.start_room, lemin.end_room, &lemin);
 	remove_output_forks(&lemin);

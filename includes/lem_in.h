@@ -129,7 +129,7 @@ typedef struct	s_lem_in
 	t_dpoint	conv;
 }				t_lem_in;
 
-void			read_from_standard_output(t_lem_in *lemin);
+void			read_from_stdout(t_lem_in *lemin);
 void			end_lem_in(t_lem_in *lemin);
 void			print_error(void);
 void			end_with_error(char *line, t_lem_in *lemin, t_link *link);

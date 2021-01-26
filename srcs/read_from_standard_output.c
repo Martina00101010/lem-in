@@ -87,6 +87,7 @@ short	skip_comments(char **line, t_lem_in *lemin)
 void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 {
 	int		i;
+	int		check;
 
 	i = -1;
 	if (skip_comments(line, lemin) == 0)
@@ -94,9 +95,12 @@ void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 	linked_add(&lemin->contents, *line);
 	while ((*line)[0] && ft_isdigit((*line)[++i]))
 	{
+		check = *number_of_ants;
 		*number_of_ants = *number_of_ants * 10 + (*line)[i] - '0';
+		if (check > *number_of_ants)
+			end_with_error(NULL, lemin, NULL);
 	}
-	if (*number_of_ants == 0 || (*line)[i] != '\0')
+	if (*number_of_ants <= 0 || (*line)[i] != '\0')
 		end_with_error(NULL, lemin, NULL);
 }
 

@@ -6,15 +6,14 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2020/12/27 15:14:08 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/26 11:42:24 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-PROJECT_BINARY = lem-in
+ROJECT_BINARY = lem-in
 TESTS_BINARY = lemin_unit_tests
 
-SRC_DIR = srcs/
-SRC_FILES = main.c \
+SRCS = main.c \
 			read_from_standard_output.c \
 			end_lem_in.c \
 			lines_with_rooms.c \
@@ -39,47 +38,46 @@ SRC_FILES = main.c \
 			sdl_render.c \
 			sdl_draw_move.c \
 
-SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
+LIBFT = -L libft -lft
 
-OBJ_DIR = objs/
-OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
+OBJ_DIR = objs
 
-INCLUDES = -I includes -I libft/includes
-LIBRARIES = -L libft -lft
-HEADERS = includes/lem_in.h includes/ft_sdl.h libft/includes/libft.h
+SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
-DEBUG = -g -ggdb3
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
-CC = gcc
+INCLUDES = -I includes -I libft/includes -I /usr/include/SDL2
 
-#FLAGS = -Wall -Wextra -Werror
-
-FRAME_SDL = -L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -lSDL2 -lSDL2_image -lSDL2_ttf
+HDR = includes/lem_in.h includes/ft_sdl.h libft/includes/libft.h 
 
 ifeq ($(OS), Darwin)
 INC_SDL = -I frameworks/SDL2.framework/Headers \
 			-I frameworks/SDL2_image.framework/Headers \
-			-I frameworks/SDL2_ttf.framework/Headers \
-			-I include_framework 
-# FRAME_SDL = -F frameworks -framework SDL2 -rpath frameworks -framework SDL2_image 
+			-I include_framework
+FRAME_SDL = -F frameworks -framework SDL2 -rpath frameworks \
+			-framework SDL2_image
 endif
 ifeq ($(OS), Linux)
-INC_SDL = -I /usr/local/include/SDL2 -I include_framework -I /usr/include/SDL2
+INC_SDL = -I/usr/local/include/SDL2 -D_REENTRANT
+FRAME_SDL = -lSDL2 -L framewords/SDL2.framework/SDL2 -lm -lSDL2_image\
+	-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags
 endif
 
+all: INSTALL_SDL $(NAME)
 
-all: $(PROJECT_BINARY)
-
-$(PROJECT_BINARY): $(OBJ)
+$(NAME): $(OBJ)
+	@echo "Compiling project..."
 	@make -s -C libft
 	@$(CC) $(FLAGS) $(DEBUG) -o $(PROJECT_BINARY) $(SRC) $(INCLUDES) $(LIBRARIES) $(INC_SDL) $(FRAME_SDL)
-	@echo "recompiled project binary"
+	@#gcc $(WFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBFT) $(INC_SDL) $(FRAME_SDL)
+	@echo "$(RED)wolf3d is ready.$(RESET)"
+	@echo "$(GREEN)*************************************************************"
+	@echo "*** Run the project: ./wolf3d [-l] maps/level_1 ***"
+	@echo "*************************************************************$(RESET)"
 
-$(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
-	@$(CC) $(FLAGS) $(INCLUDES) $(INC_SDL) -c $< -o $@
-
-$(OBJ_DIR):
+$(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HDR)
 	@mkdir -p $(OBJ_DIR)
+	@gcc $(WFLAGS) $(INCLUDES) $(INC_SDL) -c $< -o $@
 
 INSTALL_SDL:
 	@./pkg_sdl
@@ -90,12 +88,13 @@ tests:
 	@./$(TESTS_BINARY)
 
 clean:
-	@rm -rf $(OBJ_DIR)*
+	@rm -rf $(OBJ_DIR)
 	@make -s -C libft clean
+	@echo "$(BLUE)Object files removed.$(RESET)"
 
 fclean: clean
-	@rm -f $(PROJECT_BINARY)
-	@rm -f $(TESTS_BINARY)
+	@rm -f $(NAME)
 	@make -s -C libft fclean
+	@echo "$(BLUE)Binary files removed.$(RESET)"
 
 re: fclean all

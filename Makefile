@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2021/01/26 11:42:24 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/26 12:45:08 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,11 +61,9 @@ INC_SDL = -I frameworks/SDL2.framework/Headers \
 FRAME_SDL = -F frameworks -framework SDL2 -rpath frameworks \
 			-framework SDL2_image -framework SDL2_ttf
 
-ifeq ($(OS), Linux)
 INC_SDL = -I/usr/local/include/SDL2 -D_REENTRANT
-FRAME_SDL = -lSDL2 -L framewords/SDL2.framework/SDL2 -lm -lSDL2_image\
+FRAME_SDL = -lSDL2 -lSDL2_ttf \
 	-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags
-endif
 
 all: INSTALL_SDL $(NAME)
 

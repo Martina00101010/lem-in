@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2021/01/26 12:45:08 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/26 12:52:46 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,16 +54,22 @@ INCLUDES = -I includes -I libft/includes -I /usr/include/SDL2
 
 HDR = includes/lem_in.h includes/ft_sdl.h libft/includes/libft.h 
 
+OS = $(shell uname -s)
+
+ifeq ($(OS), Darwin)
 INC_SDL = -I frameworks/SDL2.framework/Headers \
 			-I frameworks/SDL2_image.framework/Headers \
 			-I frameworks/SDL2_ttf.framework/Headers \
 			-I include_framework
 FRAME_SDL = -F frameworks -framework SDL2 -rpath frameworks \
 			-framework SDL2_image -framework SDL2_ttf
+endif
 
+ifeq ($(OS), Linux)
 INC_SDL = -I/usr/local/include/SDL2 -D_REENTRANT
 FRAME_SDL = -lSDL2 -lSDL2_ttf \
 	-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags
+endif
 
 all: INSTALL_SDL $(NAME)
 

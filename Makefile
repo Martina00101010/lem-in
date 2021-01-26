@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2021/01/26 13:05:02 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/26 13:59:39 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCS = main.c \
 			build_graph.c \
 			queue.c \
 			get_room_name.c \
-			debug_print.c \
 			remove_extra_links.c \
 			remove_input_forks.c \
 			remove_links.c \

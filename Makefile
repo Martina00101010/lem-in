@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2021/01/26 12:52:46 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/26 13:05:02 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ INSTALL_SDL:
 
 tests:
 	@make -s -C libft
-	@$(CC) $(SRC_DIR)/lemin_unit_tests.c -o $(TESTS_BINARY) $(INCLUDES) $(LIBRARIES)
+	@$(CC) $(SRC_DIR)/lemin_unit_tests.c -o $(TESTS_BINARY) $(INCLUDES) $(LIBFT)
 	@./$(TESTS_BINARY)
 
 clean:

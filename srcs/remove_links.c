@@ -25,22 +25,24 @@ void	remove_entrance(t_room *room, t_room *entrance, t_lem_in *lemin)
 
 	i = 0;
 	k = 0;
-	links = (t_room **)ft_memalloc(sizeof(t_room *) *
-									(room->entrance_count - 1));
-	if (!links)
-		end_with_error(NULL, lemin, NULL);
-	while (i < room->entrance_count)
+	links = NULL;
+	if (room->entrance_count-- > 1)
 	{
-		if (room->entrance[i] != entrance)
+		links = (t_room **)malloc(sizeof(t_room *) * room->entrance_count);
+		if (!links)
+			end_with_error(NULL, lemin, NULL);
+		while (i < room->entrance_count + 1)
 		{
-			links[k] = room->entrance[i];
-			k++;
+			if (room->entrance[i] != entrance)
+			{
+				links[k] = room->entrance[i];
+				k++;
+			}
+			i++;
 		}
-		i++;
 	}
 	free(room->entrance);
 	room->entrance = links;
-	room->entrance_count--;
 }
 
 /*
@@ -56,20 +58,22 @@ void	remove_exit(t_room *room, t_room *exit, t_lem_in *lemin)
 
 	i = 0;
 	k = 0;
-	links = (t_room **)ft_memalloc(sizeof(t_room *) *
-									(room->exit_count - 1));
-	if (!links)
-		end_with_error(NULL, lemin, NULL);
-	while (i < room->exit_count)
+	links = NULL;
+	if (room->exit_count-- > 1)
 	{
-		if (room->exit[i] != exit)
+		links = (t_room **)malloc(sizeof(t_room *) * room->exit_count);
+		if (!links)
+			end_with_error(NULL, lemin, NULL);
+		while (i < room->exit_count + 1)
 		{
-			links[k] = room->exit[i];
-			k++;
+			if (room->exit[i] != exit)
+			{
+				links[k] = room->exit[i];
+				k++;
+			}
+			i++;
 		}
-		i++;
 	}
-	room->exit_count--;
 	free(room->exit);
 	room->exit = links;
 }

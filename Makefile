@@ -20,7 +20,7 @@ DEBUG = -g -ggdb3
 SRC_DIR = srcs
 
 SRCS = main.c \
-			read_from_standard_output.c \
+			read_from_stdout.c \
 			end_lem_in.c \
 			lines_with_rooms.c \
 			lines_with_links.c \

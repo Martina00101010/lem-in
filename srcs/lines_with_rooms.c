@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lines_with_rooms.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: koparker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/06 00:24:54 by pberge            #+#    #+#             */
-/*   Updated: 2020/12/06 12:58:14 by pberge           ###   ########.fr       */
+/*   Created: 2020/12/06 00:24:54 by koparker          #+#    #+#             */
+/*   Updated: 2021/01/18 12:32:45 by koparker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
 /*
-** читаем координату комнаты.
-** координата может быть только интом.
-** лайфхак: генератор создаёт только положительные координаты,
-** даже нули не использует, поэтому неположительные числа считаем невалидными
+** Read room's coordinate (`int` >= 0 only)
 */
 
 int		get_room_coordinate(char **line)
@@ -71,10 +68,6 @@ void	ft_realloc(t_lem_in *lemin, int new_size)
 	lemin->allocated = new_size;
 }
 
-/*
-**	пропускаем комментарии и команды
-*/
-
 void	skip_comments_and_commands(t_lem_in *lemin, char **line)
 {
 	if (skip_comments(line, lemin) == 0)
@@ -85,12 +78,12 @@ void	skip_comments_and_commands(t_lem_in *lemin, char **line)
 }
 
 /*
-** читает построчно файл
-** проверяет, что строка записана в формате "name x y"
-** где name - название комнаты
-**		x - x-координата комнаты
-**		y - y-координата комнаты
-** всё строго разделено одним пробелом, а в конце идёт перенос строки
+** 1. Read file line by line
+** 2. Check line format to be: "name x y"
+** 	where name is room name,
+**		x - x-coordinate of the room,
+**		y - y-coordinate of the room;
+** 	Contents separeted stricktly by ' ' and at the end: '\n'
 */
 
 void	lines_with_rooms(t_lem_in *lemin, char **line)

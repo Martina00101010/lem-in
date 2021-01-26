@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_from_standard_output.c                        :+:      :+:    :+:   */
+/*   read_from_stdout.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: koparker <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/05 14:03:24 by pberge            #+#    #+#             */
-/*   Updated: 2020/12/05 20:25:03 by pberge           ###   ########.fr       */
+/*   Created: 2020/12/05 14:03:24 by koparker          #+#    #+#             */
+/*   Updated: 2021/01/25 22:16:43 by koparker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #include "lem_in.h"
 
 /*
-** по всему парсеру идёт проверка,
-** что гет_нэкст_лайн что-то прочитал, да ещё и без ошибок,
-** поэтому вынесу его сюда вместе с проверкой
+** Enhanced gnl with error check inside
 */
 
 int		get_next_line_2_0(char **line, t_lem_in *lemin)
@@ -30,13 +28,10 @@ int		get_next_line_2_0(char **line, t_lem_in *lemin)
 }
 
 /*
-** команды
-** команды начинаются с '##'
-** команды показывают, какие комнаты считать началом и концом пути муравья.
-** началом может быть только одна комната, и концом тоже, поэтому
-** любые попытки создать ещё одно начало или конец считаются ошибкой.
-** лайфхак: похоже, что могут быть и другие команды, кроме ##start и ##end,
-** однако какие это команды не указано в задании
+** Commands:
+** 	- start with: '##'
+** 	- show which rooms are `start` or `end` (or maybe other)
+** 	- there could be only one `start` and one `end`
 */
 
 void	execute_command(char **line, t_lem_in *lemin, t_room *room)
@@ -66,7 +61,7 @@ void	execute_command(char **line, t_lem_in *lemin, t_room *room)
 }
 
 /*
-** пропускаем строки-комментарии (начинаются с '#'и следующий символ не '#')
+** Skip comments (start with '#' and next symbol is not '#')
 */
 
 short	skip_comments(char **line, t_lem_in *lemin)
@@ -81,7 +76,7 @@ short	skip_comments(char **line, t_lem_in *lemin)
 }
 
 /*
-** проверяем, что первой строкой идёт количество муравьёв на старте
+** Check first line has number of ants (comments do not count)
 */
 
 void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
@@ -105,18 +100,18 @@ void	first_line_is_int(char **line, int *number_of_ants, t_lem_in *lemin)
 }
 
 /*
-** читаем карту.
-** сначала могут идти комментарии,
-** потом строка с количеством муравьёв,
-** следом комнаты вперемешку с комментариями и командами
-** и в конце связи между комнатами вперемешку только с комметариями
+** Read map
+** 	- there may be comments at start
+** 	- then there should be number of ants
+** 	- then -- rooms mixed with commands and comments
+** 	- then -- links between rooms mixed with comments
 **
-** количество_муравьёв
-** название_комнаты-x-y
-** комната-комната
+** number_of_ants
+** room_name x y
+** room_from-room_to
 */
 
-void	read_from_standard_output(t_lem_in *lemin)
+void	read_from_stdout(t_lem_in *lemin)
 {
 	char	*line;
 	t_link	*links;

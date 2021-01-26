@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void		sdl_hook(t_lem_in *lemin, t_sdl *sdl, SDL_Scancode scode)
+void		sdl_hook(t_sdl *sdl, SDL_Scancode scode)
 {
 	if (scode == SDL_SCANCODE_S)
 		sdl->pause = 1;
@@ -24,7 +24,7 @@ void		sdl_hook(t_lem_in *lemin, t_sdl *sdl, SDL_Scancode scode)
 		sdl->debug = 0;
 }
 
-void		sdl_end_lem_in(t_lem_in *lemin, t_sdl *sdl)
+void		sdl_end_lem_in(t_lem_in *lemin)
 {
 	end_lem_in(lemin);
 	exit(0);
@@ -40,11 +40,11 @@ int			sdl_listen(t_lem_in *lemin, t_sdl *sdl)
 			(e.type == SDL_WINDOWEVENT &&
 				e.window.event == SDL_WINDOWEVENT_CLOSE))
 		{
-			sdl->running = 0;
+			lemin->sdl->running = 0;
 			return (0);
 		}
 		if (e.type == SDL_KEYDOWN)
-			sdl_hook(lemin, sdl, e.key.keysym.scancode);
+			sdl_hook(sdl, e.key.keysym.scancode);
 	}
 	return (1);
 }

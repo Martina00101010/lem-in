@@ -43,7 +43,6 @@ void	draw_start_end(t_lem_in *lemin, t_sdl *sdl)
 {
 	t_room		*room;
 	int			i;
-	t_dpoint	convert;
 
 	i = -1;
 	SDL_UpdateTexture(sdl->tex, NULL, sdl->pixels, sdl->pitch);

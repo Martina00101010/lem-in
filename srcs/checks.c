@@ -16,6 +16,8 @@ void	check_start_end_exists(t_lem_in *lemin, char *line)
 {
 	if (lemin->number_of_rooms < 2 ||
 		lemin->start_room == NULL ||
+		lemin->start_room->name == NULL ||
+		lemin->end_room->name == NULL ||
 		lemin->end_room == NULL ||
 		line == NULL)
 		end_with_error(line, lemin, NULL);

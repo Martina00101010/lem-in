@@ -52,13 +52,26 @@ int		*get_paths(t_room *end)
 	return (paths);
 }
 
+void	choose_paths(t_lem_in *lemin)
+{
+	if (lemin->flag == DRAW)
+	{
+		lemin->paths = get_paths(lemin->end_room);
+		sort_paths(lemin->paths, lemin->end_room->exit_count, lemin->end_room->entrance);
+	}
+	else
+	{
+		lemin->paths = get_paths(lemin->start_room);
+		sort_paths(lemin->paths, lemin->start_room->exit_count, lemin->start_room->exit);
+	}
+}
+
 void	ready(t_lem_in *lemin)
 {
 	int	ant_number;
 
 	ant_number = 0;
-	lemin->paths = get_paths(lemin->end_room);
-	sort_paths(lemin->paths, lemin->end_room->exit_count, lemin->end_room->entrance);
+	choose_paths(lemin);
 	lemin->start_room->ant = lemin->ants_at_start;
 	if (lemin->flag == DRAW)
 	{

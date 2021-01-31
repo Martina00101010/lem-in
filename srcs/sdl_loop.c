@@ -41,7 +41,7 @@ int			sdl_listen(t_lem_in *lemin, t_sdl *sdl)
 				e.window.event == SDL_WINDOWEVENT_CLOSE))
 		{
 			lemin->sdl->running = 0;
-			return (0);
+			sdl_end_lem_in(lemin);
 		}
 		if (e.type == SDL_KEYDOWN)
 			sdl_hook(sdl, e.key.keysym.scancode);

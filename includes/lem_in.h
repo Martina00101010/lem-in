@@ -86,14 +86,6 @@ typedef struct	s_room
 	struct s_room	**exit;
 }				t_room;
 
-typedef struct	s_move
-{
-	t_room	*room;
-	t_room	*next;
-	int		path_index;
-	short	on_graph;
-}				t_move;
-
 typedef struct	s_link
 {
 	t_room			*one;
@@ -133,9 +125,8 @@ typedef struct	s_lem_in
 	short		number_of_rooms;
 	short		largest_bfs;
 	char		flag;
+	char		move;
 	t_dpoint	conv;
-	t_move		move;
-	int			*paths;
 }				t_lem_in;
 
 void			read_from_stdout(t_lem_in *lemin);
@@ -189,20 +180,16 @@ void			get_first_image(t_lem_in *lemin);
 void			sdl_open_game(t_sdl *sdl);
 void			sdl_render_paths(t_sdl *sdl);
 void			sdl_render_text(t_sdl *sdl, t_room *room, char highlight);
-void			sdl_loop(t_lem_in *lemin, t_sdl *sdl);
+void			sdl_loop(t_lem_in *lemin, t_sdl *sdl, int *paths,
+													int *ant_number);
 void			draw_best_paths(t_lem_in *lemin);
 void			draw_start_end(t_lem_in *lemin, t_sdl *sdl);
+void			draw_ant_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 void			draw_ant_start_move(t_room *room, t_lem_in *lemin, t_sdl *sdl);
 int				sdl_listen(t_lem_in *lemin, t_sdl *sdl);
 void			sdl_end_lem_in(t_lem_in *lemin);
 void			highligh_rooms(t_room *room, t_room *n, t_lem_in *lemin,
 								t_sdl *sdl);
 void			sdl_set_rect(t_room *room, t_lem_in *lemin, t_sdl *sdl);
-short			go(int ants_on_start, int chosen, int *path);
-void			sdl_move_ants(t_lem_in *lemin);
-void			unhighligh_rooms(t_room *room, t_room *n, t_lem_in *lemin,
-								t_sdl *sdl);
-void			sdl_draw_ant_move(t_room *dst, t_room *src, t_lem_in *lemin,
-									t_sdl *sdl);
 
 #endif

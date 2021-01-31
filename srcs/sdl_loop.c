@@ -41,7 +41,7 @@ int			sdl_listen(t_lem_in *lemin, t_sdl *sdl)
 				e.window.event == SDL_WINDOWEVENT_CLOSE))
 		{
 			lemin->sdl->running = 0;
-			sdl_end_lem_in(lemin);
+			return (0);
 		}
 		if (e.type == SDL_KEYDOWN)
 			sdl_hook(sdl, e.key.keysym.scancode);
@@ -49,18 +49,16 @@ int			sdl_listen(t_lem_in *lemin, t_sdl *sdl)
 	return (1);
 }
 
-void		sdl_loop(t_lem_in *lemin, t_sdl *sdl)
+void		sdl_loop(t_lem_in *lemin, t_sdl *sdl, int *paths, int *ant_number)
 {
 	while (sdl->running)
 	{
 		if (!sdl_listen(lemin, sdl))
 			break ;
-		if (lemin->end_room->ant < lemin->ants_at_start &&
-			!sdl->pause
-		)
+		if (lemin->end_room->ant < lemin->ants_at_start && !sdl->pause)
 		{
 			sdl->pause = sdl->debug ? 1 : 0;
-			sdl_move_ants(lemin);
+			move_ants(lemin, paths, ant_number);
 		}
 	}
 }

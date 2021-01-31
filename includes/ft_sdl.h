@@ -27,8 +27,6 @@
 #  include <SDL2/SDL_image.h>
 # endif
 
-# include <time.h>
-
 # define TITLE				"Lem-in"
 # define NO_FLAGS			0
 # define RENDERING_DRIVER	0
@@ -44,7 +42,6 @@ typedef struct	s_sdl
 	SDL_Texture			*tex;
 	TTF_Font			*font;
 	SDL_Rect			rect;
-	Uint32				until;
 	int					pitch;
 	int					*pixels;
 	char				running;

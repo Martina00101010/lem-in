@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2021/01/31 20:52:42 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/31 21:01:44 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ FRAME_SDL = -lSDL2 -lSDL2_ttf \
 	-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags
 endif
 
-all: INSTALL_SDL $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Compiling project..."
@@ -83,7 +83,7 @@ $(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HDR)
 	@mkdir -p $(OBJ_DIR)
 	@gcc $(INCLUDES) $(INC_SDL) -c $< -o $@
 
-INSTALL_SDL:
+sdl:
 	@./pkg_sdl
 
 tests:

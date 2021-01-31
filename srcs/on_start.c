@@ -38,16 +38,40 @@ void	sort_paths(int *path, int count, t_room **exit)
 	}
 }
 
-int		*get_paths(t_room *end)
+int			get_rev_path_len(t_room *room)
+{
+	int len_path;
+
+	len_path = 0;
+	while (room->bfs_level != 1)
+	{
+		room = room->entrance[0];
+		len_path++;
+	}
+	return (len_path);
+}
+
+int		*get_paths(t_room *room, short rev)
 {
 	int	*paths;
 	int	i;
 
 	i = -1;
-	paths = (int *)ft_memalloc(sizeof(int) * end->entrance_count);
-	while (++i < end->entrance_count)
+	if (rev)
 	{
-		paths[i] = get_path_len(end->entrance[i]) + 1;
+		paths = (int *)ft_memalloc(sizeof(int) * room->entrance_count);
+		while (++i < room->entrance_count)
+		{
+			paths[i] = get_path_len(room->entrance[i]) + 1;
+		}
+	}
+	else
+	{
+		paths = (int *)ft_memalloc(sizeof(int) * room->exit_count);
+		while (++i < room->exit_count)
+		{
+			paths[i] = get_path_len(room->exit[i]) + 1;
+		}
 	}
 	return (paths);
 }
@@ -56,13 +80,15 @@ void	choose_paths(t_lem_in *lemin)
 {
 	if (lemin->flag == DRAW)
 	{
-		lemin->paths = get_paths(lemin->end_room);
-		sort_paths(lemin->paths, lemin->end_room->exit_count, lemin->end_room->entrance);
+		lemin->paths = get_paths(lemin->end_room, 1);
+		sort_paths(lemin->paths, lemin->end_room->exit_count,
+					lemin->end_room->entrance);
 	}
 	else
 	{
-		lemin->paths = get_paths(lemin->start_room);
-		sort_paths(lemin->paths, lemin->start_room->exit_count, lemin->start_room->exit);
+		lemin->paths = get_paths(lemin->start_room, 0);
+		sort_paths(lemin->paths, lemin->start_room->exit_count,
+					lemin->start_room->exit);
 	}
 }
 

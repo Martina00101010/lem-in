@@ -17,9 +17,9 @@ int			get_path_len(t_room *room)
 	int len_path;
 
 	len_path = 0;
-	while (room->bfs_level != MAX_SHORT)
+	while (room->bfs_level != 1)
 	{
-		room = room->exit[0];
+		room = room->entrance[0];
 		len_path++;
 	}
 	return (len_path);

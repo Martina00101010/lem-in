@@ -22,6 +22,7 @@ char	*start_sdl(t_sdl *sdl)
 	sdl->running = 1;
 	sdl->pause = 1;
 	sdl->debug = 1;
+	sdl->until = time(NULL);
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 		return ((char *)SDL_GetError());
 	return (NULL);

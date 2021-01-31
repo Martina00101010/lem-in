@@ -42,6 +42,7 @@ SRCS = main.c \
 			sdl_loop.c \
 			sdl_render.c \
 			sdl_draw_move.c \
+			sdl_go.c \
 
 LIBFT = -L libft -lft
 
@@ -77,7 +78,8 @@ all: INSTALL_SDL $(NAME)
 $(NAME): $(OBJ)
 	@echo "Compiling project..."
 	@make -s -C libft
-	@gcc $(WFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBFT) $(INC_SDL) $(FRAME_SDL)
+	@#gcc $(WFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBFT) $(INC_SDL) $(FRAME_SDL)
+	@gcc $(WFLAGS) $(DEBUG) -o $(NAME) $(SRC) $(INCLUDES) $(LIBFT) $(INC_SDL) $(FRAME_SDL)
 
 $(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HDR)
 	@mkdir -p $(OBJ_DIR)

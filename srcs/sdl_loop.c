@@ -55,7 +55,9 @@ void		sdl_loop(t_lem_in *lemin, t_sdl *sdl)
 	{
 		if (!sdl_listen(lemin, sdl))
 			break ;
-		if (lemin->end_room->ant < lemin->ants_at_start && !sdl->pause)
+		if (lemin->end_room->ant < lemin->ants_at_start &&
+			!sdl->pause
+		)
 		{
 			sdl->pause = sdl->debug ? 1 : 0;
 			sdl_move_ants(lemin);

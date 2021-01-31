@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pberge <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: koparker <marvin@42.fr>                     +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/31 19:44:29 by pberge            #+#    #+#             */
-/*   Updated: 2021/01/31 19:44:31 by pberge           ###   ########.fr       */
+/*   Created: 2020/12/20 11:21:20 by pberge            #+#    #+#             */
+/*   Updated: 2021/01/26 17:00:23 by koparker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	check_start_end_exists(t_lem_in *lemin, char *line)
 		end_with_error(line, lemin, NULL);
 	if (lemin->end_room != NULL && lemin->end_room->name == NULL)
 		end_with_error(line, lemin, NULL);
+
 }
 
 void	check_links_total_number(t_lem_in *lemin, t_link *link)

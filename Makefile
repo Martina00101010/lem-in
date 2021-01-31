@@ -15,7 +15,7 @@ TESTS_BINARY = lemin_unit_tests
 
 WFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g -ggdb3 #-fsanitize=address -static-libasan
+DEBUG = -g -ggdb3
 
 SRC_DIR = srcs
 

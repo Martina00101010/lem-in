@@ -6,7 +6,7 @@
 #    By: pberge <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/05 11:59:05 by pberge            #+#    #+#              #
-#    Updated: 2021/01/26 13:59:39 by pberge           ###   ########.fr        #
+#    Updated: 2021/01/31 20:52:42 by pberge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ TESTS_BINARY = lemin_unit_tests
 
 WFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g -ggdb3
+DEBUG = -g -ggdb3 -fsanitize=address -static-libasan
 
 SRC_DIR = srcs
 
